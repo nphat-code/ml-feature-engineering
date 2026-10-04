@@ -74,4 +74,12 @@
   - Dùng **Engineered Features** để nắm bắt hành vi nghiệp vụ (số lần click trong 1h qua, tỉ lệ xem hết video, địa điểm...).
   - 👉 Ghép cả hai nhóm đặc trưng này vào mô hình xếp hạng (Ranking Model) cuối cùng.
 
+### 🎙️ 4. Kịch bản thuyết trình mẫu (Speaker Script ~ 1.5 - 2 phút):
+1. **Mở đầu (Tạo tò mò):** *"Khi Deep Learning bùng nổ, từng có câu hỏi: 'Liệu Feature Engineering đã chết chưa?' Nhiều người nghĩ chỉ cần ném dữ liệu thô vào mạng nơ-ron là xong..."*
+2. **Phân định rõ (Đối chiếu 2 bên):**
+   - *Learned Features:* Rất mạnh cho **dữ liệu phi cấu trúc** (Ảnh, Chữ, Tiếng nói) nhưng lại là "hộp đen" (black-box), tốn dữ liệu khổng lồ và chi phí tính toán cao.
+   - *Engineered Features:* Thống trị tuyệt đối trên **dữ liệu dạng bảng (Tabular data)** - loại dữ liệu chiếm 80% thực tế doanh nghiệp. Mô hình nhẹ hơn, chạy nhanh, ít tốn dữ liệu và cực kỳ dễ giải thích (white-box).
+3. **Chốt hạ thực tế (Dẫn sang phần sau):** *"Các hệ thống lớn thực tế như TikTok hay Shopee không chọn 1 trong 2 mà kết hợp cả hai (Hybrid). Và để xem con người dùng các kỹ thuật cụ thể nào để nhào nặn đặc trưng, chúng ta cùng đến với phần tiếp theo..."*
+
+
 
