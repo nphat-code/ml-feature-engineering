@@ -81,5 +81,30 @@
    - *Engineered Features:* Thống trị tuyệt đối trên **dữ liệu dạng bảng (Tabular data)** - loại dữ liệu chiếm 80% thực tế doanh nghiệp. Mô hình nhẹ hơn, chạy nhanh, ít tốn dữ liệu và cực kỳ dễ giải thích (white-box).
 3. **Chốt hạ thực tế (Dẫn sang phần sau):** *"Các hệ thống lớn thực tế như TikTok hay Shopee không chọn 1 trong 2 mà kết hợp cả hai (Hybrid). Và để xem con người dùng các kỹ thuật cụ thể nào để nhào nặn đặc trưng, chúng ta cùng đến với phần tiếp theo..."*
 
+---
 
+## 🧩 5. Xử lý Dữ liệu khuyết thiếu (Handling Missing Values)
+*Thời lượng slide đề xuất: 1 Slide duy nhất (~1.5 đến 2 phút)*
 
+### 1. Bản chất: 3 Cơ chế gây thiếu dữ liệu
+Không phải ô trống nào cũng giống nhau. Hiểu lý do thiếu quyết định cách xử lý:
+
+| Loại khuyết thiếu | Bản chất | Ví dụ đời thực |
+| :--- | :--- | :--- |
+| **MCAR** *(Missing Completely at Random)* | **Thiếu hoàn toàn ngẫu nhiên:** Không phụ thuộc vào bất kỳ biến nào. | Hệ thống gặp sự cố đứt mạng ngẫu nhiên làm rơi mất vài dòng log giao dịch. |
+| **MAR** *(Missing at Random)* | **Thiếu ngẫu nhiên có điều kiện:** Phụ thuộc vào một biến quan sát được khác trong tập dữ liệu. | Phụ nữ thường ít khi khai cân nặng hơn nam giới $\rightarrow$ Việc thiếu cân nặng phụ thuộc vào biến *Giới tính*. |
+| **MNAR** *(Missing Not at Random)* | **Thiếu không ngẫu nhiên:** Thiếu vì chính bản thân giá trị đó quá đặc biệt/nhạy cảm. | Người có **thu nhập cực cao** thường từ chối khai báo thu nhập trong khảo sát. |
+
+### 2. Các phương pháp xử lý trong thực tế:
+- **Xóa dòng/cột (Deletion):** Chỉ nên dùng khi tỷ lệ thiếu cực nhỏ ($< 1 - 2\%$) và thuộc dạng MCAR. Nếu xóa dữ liệu dạng MNAR, ta sẽ vô tình xóa sạch nhóm người giàu!
+- **Điền khuyết (Imputation):**
+  - Đơn giản: Điền Mean (trung bình) hoặc Median (trung vị - tốt khi dữ liệu có ngoại lai lệch).
+  - Nâng cao: KNN Imputer, Iterative Imputer (MICE).
+- **⭐ Kỹ thuật ăn điểm nhất: Missing Indicator (`is_missing = 1`):**
+  - Tạo thêm một cột nhị phân đánh dấu ô đó có bị thiếu hay không (Ví dụ: `income_is_missing = 1`).
+  - *Tác dụng:* Biến hành vi "từ chối khai báo" thành một **tín hiệu đắt giá** cho mô hình nhận diện nhóm khách hàng tiềm năng.
+
+### 🎙️ 3. Kịch bản thuyết trình mẫu (~1.5 phút):
+> *"Thưa thầy cô và các bạn, khi xử lý dữ liệu khuyết thiếu, sai lầm phổ biến là cứ thấy trống là đè ra điền trung bình (Mean) hoặc xóa dòng. Nhưng trong thực tế, ta cần hiểu bản chất:  
+> - Dữ liệu có thể rơi rụng ngẫu nhiên (MCAR), nhưng nguy hiểm hơn là bị giấu có chủ đích (MNAR) – ví dụ như người có thu nhập rất cao thường từ chối khai thu nhập. Nếu ta lấy trung bình điền vào, ta sẽ vô tình kéo tụt thu nhập người giàu và làm mô hình bị sai lệch hoàn toàn.  
+> - Do đó, giải pháp tối ưu là dùng kỹ thuật **Missing Indicator**: tạo thêm một cột cờ `income_is_missing = 1`. Cột cờ này giúp mô hình nhận ra ngay: người không khai thu nhập chính là nhóm khách hàng VIP có thu nhập cao!"*
