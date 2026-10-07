@@ -16,7 +16,7 @@
 ## ❓ 2. Tại sao lại cần Feature Engineering?
 *Nguyên lý cốt lõi: "Garbage In, Garbage Out" – Chất lượng đầu ra của mô hình phụ thuộc trực tiếp vào chất lượng và cách biểu diễn của dữ liệu đầu vào.*
 
-1. **Mô hình học máy yêu cầu dữ liệu dạng số có cấu trúc:**
+1. **Mô hình học máy chỉ hiểu dữ liệu dạng số:**
    - Dữ liệu thô thường chứa nhiều định dạng khác nhau: văn bản (`"Nam/Nữ"`), chuỗi thời gian (`2026-10-04 17:45`), giá trị bị khuyết (`NaN`), hoặc khoảng giá trị có sự chênh lệch lớn $\rightarrow$ Feature Engineering là bước chuẩn hóa và chuyển đổi dữ liệu về dạng biểu diễn toán học phù hợp cho các giải thuật tính toán.
 2. **Bổ sung tri thức miền nghiệp vụ (Domain Knowledge):**
    - Thuật toán ML chỉ thực hiện các phép tính thống kê mà không tự hiểu được ngữ cảnh thực tế của bài toán.
