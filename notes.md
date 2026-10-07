@@ -10,7 +10,6 @@
 ## 📖 1. Feature Engineering là gì?
 - **Feature (Đặc trưng):** Là các thông tin đầu vào dùng để mô tả đối tượng cần dự đoán (trong bảng dữ liệu, **mỗi cột chính là 1 feature** như: Tuổi, Giới tính, Giá tiền...).
 - **Feature Engineering:** Là quá trình **xử lý, biến đổi và tạo ra các đặc trưng hữu ích** từ dữ liệu thô ban đầu để mô hình Học máy học được các quy luật tốt nhất.
-- *Hình ảnh so sánh dễ nhớ:* Giống như **khâu sơ chế nguyên liệu nấu ăn** – dữ liệu thô mua về còn lẫn tạp chất, cần được rửa sạch, gọt vỏ thái miếng và nêm nếm gia vị kết hợp thì món ăn nấu ra mới ngon.
 
 ---
 
