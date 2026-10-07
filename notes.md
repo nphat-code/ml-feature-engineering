@@ -34,9 +34,9 @@
   - Thời tiết: `"Mưa to"`.
 - **Sau khi làm Feature Engineering (Cung cấp tín hiệu rõ ràng):**
   - Tính `khoang_cach_km = 8.5 km` (từ 2 cặp tọa độ $\rightarrow$ yếu tố quyết định thời gian đi).
-  - Trích xuất `is_rush_hour = 1` (17h45 = giờ tan tầm) và `thu_trong_tuan = Friday` (chiều thứ 6 kẹt xe).
+  - Trích xuất `is_rush_hour = 1` (17h45 = giờ tan tầm).
   - Mã hóa `is_rain = 1` (trời mưa tài xế chạy chậm hơn).
-- **👉 Kết quả:** Biến các con số rời rạc thành bộ tín hiệu cực mạnh: *Đi 8.5 km + Giờ cao điểm chiều Thứ 6 + Trời mưa* $\rightarrow$ Mô hình dự đoán chuẩn xác thời gian chuyến đi sẽ kéo dài gấp đôi.
+- **👉 Kết quả:** Biến các con số rời rạc thành bộ tín hiệu cực mạnh: *Đi 8.5 km + Giờ cao điểm + Trời mưa* $\rightarrow$ Mô hình dự đoán chuẩn xác thời gian chuyến đi sẽ kéo dài gấp đôi.
 
 ### 🏠 Ví dụ 2: Dự đoán Giá nhà
 - **Dữ liệu thô:** `Chieu_dai = 20m`, `Chieu_rong = 5m`, `Nam_xay_dung = 2004`.
