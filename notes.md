@@ -1,9 +1,9 @@
 # Ghi chú học tập - Chapter 5: Feature Engineering (Chip Huyen)
 
 ## 📌 Lời mở đầu (Tại sao đề tài này quan trọng?)
-- **Mô hình tối tân không cứu được dữ liệu tồi:** Ngay cả những mô hình AI phức tạp nhất (State-of-the-art) vẫn hoạt động rất kém nếu không có một tập đặc trưng tốt.
-- **Kinh nghiệm thực tế từ Facebook (2014):** Bài báo nổi tiếng về dự đoán click quảng cáo chỉ ra rằng: việc tìm ra đúng đặc trưng giúp tăng hiệu năng mô hình vượt trội hơn hẳn so với việc mất hàng tuần tinh chỉnh thuật toán.
-- 👉 *Thực tế:* Phần lớn thời gian của Kỹ sư ML & Data Scientist trong doanh nghiệp là dành cho việc tìm tòi và xử lý đặc trưng.
+- **Mô hình phức tạp không bù đắp được dữ liệu kém chất lượng:** Ngay cả các mô hình tiên tiến (State-of-the-art) vẫn cho hiệu năng thấp nếu không được cung cấp tập đặc trưng phù hợp.
+- **Thực nghiệm từ nghiên cứu của Facebook (2014):** Nghiên cứu về dự đoán tỷ lệ nhấp chuột (CTR) cho thấy việc tìm ra đặc trưng phù hợp mang lại cải thiện hiệu năng rõ rệt hơn nhiều so với việc chỉ tập trung tinh chỉnh thuật toán học máy.
+- 👉 *Thực tế:* Trong quy trình phát triển hệ thống ML, phần lớn thời gian được dành cho việc thu thập, phân tích và xử lý đặc trưng.
 
 ---
 
@@ -13,97 +13,96 @@
 
 ---
 
-
 ## ❓ 2. Tại sao lại cần Feature Engineering?
-*Nguyên lý cốt lõi: "Garbage In, Garbage Out" – Động cơ xe đua dù xịn đến đâu nhưng nếu đổ xăng bẩn (dữ liệu thô chưa xử lý) thì xe không thể chạy.*
+*Nguyên lý cốt lõi: "Garbage In, Garbage Out" – Chất lượng đầu ra của mô hình phụ thuộc trực tiếp vào chất lượng và cách biểu diễn của dữ liệu đầu vào.*
 
-1. **Máy tính chỉ hiểu Số, không hiểu Đời thực:**
-   - Dữ liệu thực tế đầy rẫy chữ viết (`"Nam/Nữ"`), ngày giờ (`2026-10-04 17:45`), ô bị trống (`NaN`), hoặc khoảng giá trị chênh lệch hàng triệu lần $\rightarrow$ Feature Engineering là bước bắt buộc để "dịch" dữ liệu thô sang các con số toán học mà thuật toán có thể tính toán được.
-2. **Máy tính thiếu Trực giác của Con người (Domain Knowledge):**
-   - Thuật toán ML chỉ là cỗ máy tính toán thống kê, nó **không tự hiểu ngữ cảnh đời thực**.
-   - Con người dùng kiến thức chuyên ngành để chủ động "mớm" tín hiệu quan trọng cho mô hình thông qua các biến tạo mới.
+1. **Mô hình học máy yêu cầu dữ liệu dạng số có cấu trúc:**
+   - Dữ liệu thô thường chứa nhiều định dạng khác nhau: văn bản (`"Nam/Nữ"`), chuỗi thời gian (`2026-10-04 17:45`), giá trị bị khuyết (`NaN`), hoặc khoảng giá trị có sự chênh lệch lớn $\rightarrow$ Feature Engineering là bước chuẩn hóa và chuyển đổi dữ liệu về dạng biểu diễn toán học phù hợp cho các giải thuật tính toán.
+2. **Bổ sung tri thức miền nghiệp vụ (Domain Knowledge):**
+   - Thuật toán ML chỉ thực hiện các phép tính thống kê mà không tự hiểu được ngữ cảnh thực tế của bài toán.
+   - Kỹ sư sử dụng hiểu biết nghiệp vụ để chủ động tạo ra các đặc trưng có ý nghĩa, giúp mô hình nắm bắt được các mối quan hệ quan trọng ẩn trong dữ liệu.
 
 ---
 
-## 💡 3. Ví dụ minh họa trực quan (Thấy ngay hiệu quả)
+## 💡 3. Ví dụ minh họa thực tế
 
-### 🚖 Ví dụ 1: Dự đoán thời gian chuyến xe Grab / Giao đồ ăn
-- **Dữ liệu thô (Máy không hiểu ngữ cảnh):**
+### 🚖 Ví dụ 1: Dự đoán thời gian di chuyển chuyến xe
+- **Dữ liệu thô:**
   - Tọa độ đón `(10.77, 106.70)`, Tọa độ trả `(10.82, 106.62)`.
-  - Thời gian: `"2026-10-04 17:45:00"`.
+  - Thời gian khởi hành: `"2026-10-04 17:45:00"`.
   - Thời tiết: `"Mưa to"`.
-- **Sau khi làm Feature Engineering (Cung cấp tín hiệu rõ ràng):**
-  - Tính `khoang_cach_km = 8.5 km` (từ 2 cặp tọa độ $\rightarrow$ yếu tố quyết định thời gian đi).
-  - Trích xuất `is_rush_hour = 1` (17h45 = giờ tan tầm).
-  - Mã hóa `is_rain = 1` (trời mưa tài xế chạy chậm hơn).
-- **👉 Kết quả:** Biến các con số rời rạc thành bộ tín hiệu cực mạnh: *Đi 8.5 km + Giờ cao điểm + Trời mưa* $\rightarrow$ Mô hình dự đoán chuẩn xác thời gian chuyến đi sẽ kéo dài gấp đôi.
+- **Sau khi thực hiện Feature Engineering:**
+  - Tính `khoang_cach_km = 8.5 km` (tính từ tọa độ điểm đón và điểm trả).
+  - Trích xuất `is_rush_hour = 1` (17h45 nằm trong khung giờ cao điểm).
+  - Mã hóa `is_rain = 1` (điều kiện thời tiết bất lợi ảnh hưởng đến tốc độ di chuyển).
+- **👉 Kết quả:** Chuyển đổi dữ liệu rời rạc thành các thuộc tính mang tính đại diện cao (*Khoảng cách 8.5 km + Giờ cao điểm + Mưa*), giúp mô hình ước lượng thời gian di chuyển sát với thực tế hơn.
 
-### 🏠 Ví dụ 2: Dự đoán Giá nhà
+### 🏠 Ví dụ 2: Dự đoán Giá bất động sản
 - **Dữ liệu thô:** `Chieu_dai = 20m`, `Chieu_rong = 5m`, `Nam_xay_dung = 2004`.
-- **Sau khi làm Feature Engineering:**
-  - `Dien_tich = Dai × Rong = 100 m²` (giá nhà tính theo m², biến diện tích tương quan trực tiếp với giá hơn là để 2 số đo riêng rẽ).
-  - `Tuoi_nha = 2026 - 2004 = 22 nam` (phản ánh trực tiếp mức độ khấu hao công trình theo thời gian).
+- **Sau khi thực hiện Feature Engineering:**
+  - `Dien_tich = Dai × Rong = 100 m²` (diện tích có tương quan tuyến tính rõ rệt hơn với giá trị bất động sản so với từng kích thước riêng lẻ).
+  - `Tuoi_nha = 2026 - 2004 = 22 nam` (phản ánh mức độ hao mòn công trình theo thời gian).
 
 ---
 
 ## ⚖️ 4. Learned Features vs. Engineered Features
-*Câu hỏi mở đầu: "Deep Learning phát triển mạnh mẽ, liệu Feature Engineering có bị biến mất không?"*
+*Câu hỏi thảo luận: "Khi Deep Learning phát triển mạnh mẽ, liệu Feature Engineering có còn cần thiết không?"*
 
 ### 1. Bản chất sự khác biệt:
 - **Engineered Features (Đặc trưng thiết kế thủ công):**
   - Do con người vận dụng **kinh nghiệm & kiến thức nghiệp vụ (Domain Knowledge)** để chủ động tạo ra.
-  - Thống trị trên **Dữ liệu dạng bảng (Tabular Data)** – loại dữ liệu phổ biến nhất trong doanh nghiệp (ngân hàng, tài chính, e-commerce).
+  - Phù hợp và hiệu quả cao trên **Dữ liệu dạng bảng (Tabular Data)** – dạng dữ liệu phổ biến nhất trong các bài toán kinh doanh (tài chính, ngân hàng, thương mại điện tử).
 - **Learned Features (Đặc trưng tự học):**
-  - Mạng nơ-ron sâu tự động trích xuất các biểu diễn đặc trưng (Representation Learning) từ dữ liệu thô (ví dụ: CNN tự trích xuất đường nét, mắt mũi từ ảnh).
-  - Vượt trội trên **Dữ liệu phi cấu trúc (Unstructured Data)** như Hình ảnh, Âm thanh, Video, Văn bản.
+  - Mạng nơ-ron sâu tự động trích xuất các biểu diễn đặc trưng (Representation Learning) từ dữ liệu thô (ví dụ: mô hình CNN tự trích xuất đường nét, góc cạnh từ ảnh).
+  - Phù hợp trên **Dữ liệu phi cấu trúc (Unstructured Data)** như Hình ảnh, Âm thanh, Video, Văn bản.
 
 ### 2. Bảng so sánh trực quan:
 
 | Tiêu chí | 🛠️ Engineered Features (Thủ công) | 🤖 Learned Features (Tự học qua DL) |
 | :--- | :--- | :--- |
-| **Nguồn gốc** | Con người tự thiết kế dựa vào hiểu biết nghiệp vụ. | Mạng nơ-ron tự học trong quá trình huấn luyện. |
-| **Dữ liệu thế mạnh** | **Dữ liệu dạng bảng (Tabular data)** (Excel, SQL). | **Dữ liệu phi cấu trúc** (Ảnh, Video, Âm thanh, Chữ). |
-| **Tính giải thích** | **Rất cao (White-box):** Hiểu rõ tại sao mô hình ra quyết định. | **Thấp (Black-box):** Các ma trận vector/nhúng khó diễn giải. |
-| **Tài nguyên & Dữ liệu** | Cần ít dữ liệu hơn, chạy nhẹ trên CPU/GPU cơ bản. | "Ngốn" dữ liệu lớn và bắt buộc GPU/tài nguyên mạnh. |
-| **Hạn chế** | Tốn công sức người thiết kế, khó làm cho dữ liệu ảnh/âm thanh. | Khó giải thích, dễ overfit nếu lượng dữ liệu ít. |
+| **Nguồn gốc** | Con người chủ động thiết kế dựa vào hiểu biết nghiệp vụ. | Mạng nơ-ron tự học trong quá trình huấn luyện. |
+| **Dữ liệu thế mạnh** | **Dữ liệu dạng bảng (Tabular data)** (CSDL quan hệ, bảng tính). | **Dữ liệu phi cấu trúc** (Ảnh, Video, Âm thanh, Văn bản). |
+| **Tính giải thích** | **Cao (White-box):** Dễ dàng diễn giải cơ chế đưa ra quyết định. | **Thấp (Black-box):** Biểu diễn dạng vector/embedding khó diễn giải trực tiếp. |
+| **Tài nguyên & Dữ liệu** | Hoạt động tốt với tập dữ liệu vừa/nhỏ, chi phí tính toán thấp. | Yêu cầu tập dữ liệu lớn và tài nguyên tính toán cao (GPU/TPU). |
+| **Hạn chế** | Tốn công sức xây dựng đặc trưng, khó áp dụng cho dữ liệu phi cấu trúc phức tạp. | Khó giải thích nguyên nhân dự đoán, dễ quá khớp (overfit) khi ít dữ liệu. |
 
-### 3. Thực tế trong Production (Xu hướng kết hợp - Hybrid Approach):
-- Trong các hệ thống lớn thực tế (TikTok, YouTube, Shopee), người ta **không loại trừ nhau mà kết hợp cả hai**:
-  - Dùng **Learned Features** để hiểu nội dung (tạo vector Embeddings từ video/ảnh/text).
-  - Dùng **Engineered Features** để nắm bắt hành vi nghiệp vụ (số lần click trong 1h qua, tỉ lệ xem hết video, địa điểm...).
-  - 👉 Ghép cả hai nhóm đặc trưng này vào mô hình xếp hạng (Ranking Model) cuối cùng.
+### 3. Thực tế triển khai (Phương pháp kết hợp - Hybrid Approach):
+- Trong các hệ thống sản xuất quy mô lớn (hệ thống gợi ý, xếp hạng tìm kiếm), hai hướng tiếp cận này **thường được kết hợp cùng nhau**:
+  - Dùng **Learned Features** để mã hóa nội dung (vector nhúng của văn bản, hình ảnh).
+  - Dùng **Engineered Features** để thể hiện các đặc trưng hành vi và nghiệp vụ (tần suất tương tác gần đây, địa điểm, thời điểm...).
+  - 👉 Kết hợp cả hai nhóm đặc trưng vào mô hình xếp hạng (Ranking Model) cuối cùng.
 
-### 🎙️ 4. Kịch bản thuyết trình mẫu (Speaker Script ~ 1.5 - 2 phút):
-1. **Mở đầu (Tạo tò mò):** *"Khi Deep Learning bùng nổ, từng có câu hỏi: 'Liệu Feature Engineering đã chết chưa?' Nhiều người nghĩ chỉ cần ném dữ liệu thô vào mạng nơ-ron là xong..."*
-2. **Phân định rõ (Đối chiếu 2 bên):**
-   - *Learned Features:* Rất mạnh cho **dữ liệu phi cấu trúc** (Ảnh, Chữ, Tiếng nói) nhưng lại là "hộp đen" (black-box), tốn dữ liệu khổng lồ và chi phí tính toán cao.
-   - *Engineered Features:* Thống trị tuyệt đối trên **dữ liệu dạng bảng (Tabular data)** - loại dữ liệu chiếm 80% thực tế doanh nghiệp. Mô hình nhẹ hơn, chạy nhanh, ít tốn dữ liệu và cực kỳ dễ giải thích (white-box).
-3. **Chốt hạ thực tế (Dẫn sang phần sau):** *"Các hệ thống lớn thực tế như TikTok hay Shopee không chọn 1 trong 2 mà kết hợp cả hai (Hybrid). Và để xem con người dùng các kỹ thuật cụ thể nào để nhào nặn đặc trưng, chúng ta cùng đến với phần tiếp theo..."*
+### 🎙️ 4. Kịch bản thuyết trình gợi ý (~1.5 - 2 phút):
+1. **Mở đầu:** *"Với sự phát triển mạnh mẽ của Deep Learning, có ý kiến cho rằng các kỹ thuật Feature Engineering truyền thống không còn cần thiết vì mô hình có thể tự học đặc trưng..."*
+2. **Đối chiếu hai phương pháp:**
+   - *Learned Features:* Rất phù hợp cho **dữ liệu phi cấu trúc** (hình ảnh, âm thanh, văn bản), tuy nhiên thường khó diễn giải và đòi hỏi lượng dữ liệu lớn cùng chi phí tính toán cao.
+   - *Engineered Features:* Đặc biệt hiệu quả trên **dữ liệu dạng bảng (Tabular data)** - dạng dữ liệu chiếm phần lớn trong các bài toán ứng dụng thực tế. Phương pháp này giúp mô hình dễ giải thích, huấn luyện nhanh và ít phụ thuộc vào lượng dữ liệu khổng lồ.
+3. **Kết luận và chuyển tiếp:** *"Trong thực tế, các hệ thống lớn thường áp dụng mô hình lai (Hybrid Approach) kết hợp cả hai nhóm đặc trưng. Để nắm rõ các kỹ thuật phổ biến được áp dụng trong xây dựng đặc trưng, chúng ta cùng chuyển sang phần tiếp theo..."*
 
 ---
 
 ## 🧩 5. Xử lý Dữ liệu khuyết thiếu (Handling Missing Values)
-*Thời lượng slide đề xuất: 1 Slide duy nhất (~1.5 đến 2 phút)*
+*Thời lượng đề xuất: 1 Slide (~1.5 đến 2 phút)*
 
-### 1. Bản chất: 3 Cơ chế gây thiếu dữ liệu
-Không phải ô trống nào cũng giống nhau. Hiểu lý do thiếu quyết định cách xử lý:
+### 1. 3 Cơ chế khuyết thiếu dữ liệu
+Xác định đúng cơ chế thiếu giúp lựa chọn phương pháp xử lý thích hợp:
 
-| Loại khuyết thiếu | Bản chất | Ví dụ đời thực |
+| Loại khuyết thiếu | Bản chất | Ví dụ thực tế |
 | :--- | :--- | :--- |
-| **MCAR** *(Missing Completely at Random)* | **Thiếu hoàn toàn ngẫu nhiên:** Không phụ thuộc vào bất kỳ biến nào. | Hệ thống gặp sự cố đứt mạng ngẫu nhiên làm rơi mất vài dòng log giao dịch. |
-| **MAR** *(Missing at Random)* | **Thiếu ngẫu nhiên có điều kiện:** Phụ thuộc vào một biến quan sát được khác trong tập dữ liệu. | Phụ nữ thường ít khi khai cân nặng hơn nam giới $\rightarrow$ Việc thiếu cân nặng phụ thuộc vào biến *Giới tính*. |
-| **MNAR** *(Missing Not at Random)* | **Thiếu không ngẫu nhiên:** Thiếu vì chính bản thân giá trị đó quá đặc biệt/nhạy cảm. | Người có **thu nhập cực cao** thường từ chối khai báo thu nhập trong khảo sát. |
+| **MCAR** *(Missing Completely at Random)* | **Thiếu hoàn toàn ngẫu nhiên:** Xác suất thiếu không phụ thuộc vào bất kỳ biến số nào. | Lỗi đường truyền mạng ngẫu nhiên làm mất một số dòng bản ghi nhật ký hệ thống. |
+| **MAR** *(Missing at Random)* | **Thiếu ngẫu nhiên có điều kiện:** Xác suất thiếu phụ thuộc vào một biến quan sát được khác trong tập dữ liệu. | Tỷ lệ điền thông tin cân nặng có sự chênh lệch theo biến *Giới tính*. |
+| **MNAR** *(Missing Not at Random)* | **Thiếu không ngẫu nhiên:** Xác suất thiếu phụ thuộc trực tiếp vào chính giá trị của biến đó. | Đối tượng có mức thu nhập đặc biệt cao hoặc rất thấp thường từ chối khai báo thu nhập trong khảo sát. |
 
-### 2. Các phương pháp xử lý trong thực tế:
-- **Xóa dòng/cột (Deletion):** Chỉ nên dùng khi tỷ lệ thiếu cực nhỏ ($< 1 - 2\%$) và thuộc dạng MCAR. Nếu xóa dữ liệu dạng MNAR, ta sẽ vô tình xóa sạch nhóm người giàu!
+### 2. Các phương pháp xử lý phổ biến:
+- **Xóa dòng/cột (Deletion):** Phù hợp khi tỷ lệ thiếu rất nhỏ ($< 1 - 2\%$) và dữ liệu thuộc dạng MCAR. Không nên áp dụng cho MNAR vì có thể làm biến dạng phân phối thực tế của mẫu.
 - **Điền khuyết (Imputation):**
-  - Đơn giản: Điền Mean (trung bình) hoặc Median (trung vị - tốt khi dữ liệu có ngoại lai lệch).
-  - Nâng cao: KNN Imputer, Iterative Imputer (MICE).
-- **⭐ Kỹ thuật ăn điểm nhất: Missing Indicator (`is_missing = 1`):**
-  - Tạo thêm một cột nhị phân đánh dấu ô đó có bị thiếu hay không (Ví dụ: `income_is_missing = 1`).
-  - *Tác dụng:* Biến hành vi "từ chối khai báo" thành một **tín hiệu đắt giá** cho mô hình nhận diện nhóm khách hàng tiềm năng.
+  - Phương pháp cơ bản: Điền Mean (trung bình) hoặc Median (trung vị - hạn chế ảnh hưởng của giá trị ngoại lai).
+  - Phương pháp nâng cao: KNN Imputer, Iterative Imputer (MICE).
+- **Kỹ thuật bổ trợ: Cờ báo dữ liệu khuyết thiếu (Missing Indicator):**
+  - Tạo thêm cột nhị phân đánh dấu trạng thái bị khuyết (ví dụ: `income_is_missing = 1`).
+  - *Ý nghĩa:* Lưu giữ thông tin về sự vắng mặt của dữ liệu như một đặc trưng riêng biệt, hỗ trợ mô hình nhận diện được các mẫu dữ liệu đặc thù.
 
-### 🎙️ 3. Kịch bản thuyết trình mẫu (~1.5 phút):
-> *"Thưa thầy cô và các bạn, khi xử lý dữ liệu khuyết thiếu, sai lầm phổ biến là cứ thấy trống là đè ra điền trung bình (Mean) hoặc xóa dòng. Nhưng trong thực tế, ta cần hiểu bản chất:  
-> - Dữ liệu có thể rơi rụng ngẫu nhiên (MCAR), nhưng nguy hiểm hơn là bị giấu có chủ đích (MNAR) – ví dụ như người có thu nhập rất cao thường từ chối khai thu nhập. Nếu ta lấy trung bình điền vào, ta sẽ vô tình kéo tụt thu nhập người giàu và làm mô hình bị sai lệch hoàn toàn.  
-> - Do đó, giải pháp tối ưu là dùng kỹ thuật **Missing Indicator**: tạo thêm một cột cờ `income_is_missing = 1`. Cột cờ này giúp mô hình nhận ra ngay: người không khai thu nhập chính là nhóm khách hàng VIP có thu nhập cao!"*
+### 🎙️ 3. Kịch bản thuyết trình gợi ý (~1.5 phút):
+> *"Thưa thầy cô và các bạn, khi xử lý dữ liệu khuyết thiếu, tiếp cận theo cách máy móc như xóa dòng hoặc chỉ điền giá trị trung bình (Mean) có thể dẫn đến sai lệch phân phối. Trong thực tế:  
+> - Cần phân biệt rõ cơ chế khuyết thiếu: dữ liệu có thể thiếu hoàn toàn ngẫu nhiên (MCAR), hoặc thiếu có hệ thống gắn liền với giá trị của chính biến đó (MNAR) – ví dụ nhóm thu nhập đặc thù thường không khai báo. Nếu chỉ điền giá trị trung bình vào nhóm này, ta sẽ làm biến dạng phân phối thực tế.  
+> - Do đó, bên cạnh việc điền khuyết, một giải pháp hiệu quả là kết hợp kỹ thuật **Missing Indicator**: tạo thêm một đặc trưng nhị phân `income_is_missing = 1`. Đặc trưng này cung cấp thêm thông tin cho mô hình rằng dữ liệu từng bị khuyết, từ đó bảo toàn được tín hiệu phân loại quan trọng."*
