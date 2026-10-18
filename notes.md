@@ -108,3 +108,67 @@ Cần hiểu vì sao dữ liệu bị thiếu trước khi quyết định cách
 > *"Thưa thầy cô và các bạn, khi thấy dữ liệu bị trống, sai lầm phổ biến là vội vàng xóa dòng hoặc chỉ điền số trung bình. Trong thực tế, ta cần hiểu lý do vì sao dữ liệu bị thiếu:  
 > - Dữ liệu có thể rơi mất ngẫu nhiên do lỗi hệ thống (MCAR), nhưng cũng có thể bị khuyết có lý do (MNAR) – ví dụ người có thu nhập rất cao thường không chịu khai báo. Nếu chỉ điền số trung bình vào, ta sẽ vô tình làm mất thông tin về nhóm người này.  
 > - Vì vậy, giải pháp hiệu quả là dùng **Missing Indicator**: tạo thêm cột `income_is_missing = 1`. Cột cờ này giúp mô hình nhận biết được hành vi không khai báo, giữ trọn vẹn thông tin hữu ích cho bài toán."*
+
+---
+
+## 📏 6. Chuẩn hóa phạm vi dữ liệu (Scaling & Normalization)
+
+### 1. Bản chất & Lý do cần Scaling:
+- **Vấn đề:** Các biến trong thực tế có đơn vị đo và thang đo rất chênh lệch (ví dụ: `Tuổi` từ 18 đến 65, nhưng `Thu nhập` từ 5.000.000 đến 100.000.000 VNĐ).
+- **Tác động đến từng nhóm thuật toán:**
+  - **Thuật toán dựa trên khoảng cách (KNN, SVM, K-Means):** Biến có độ lớn lớn hơn sẽ chi phối hoàn toàn phép tính khoảng cách (như khoảng cách Euclidean), khiến biến có giá trị nhỏ bị xem như không có ý nghĩa dù có thể chứa thông tin quan trọng.
+  - **Thuật toán tối ưu Gradient Descent (Linear/Logistic Regression, Neural Networks):** Khi các biến không đồng đều thang đo, đường đồng mức của hàm mất mát có dạng elip dài và hẹp. Quá trình cập nhật Gradient sẽ dao động hình zic-zac, làm mô hình hội tụ rất chậm hoặc mất ổn định. Scaling đưa đường đồng mức về dạng gần tròn, giúp Gradient tiến thẳng về cực tiểu.
+  - **Mô hình dạng cây (Decision Tree, Random Forest, XGBoost):** **Không bị ảnh hưởng** bởi scaling, do việc tìm điểm phân nhánh chỉ dựa trên thứ tự giá trị chứ không dựa trên độ lớn khoảng cách.
+
+---
+
+### 2. Các phương pháp phổ biến:
+
+#### A. Min-Max Normalization (Đưa về đoạn cố định)
+- **Công thức:** 
+  $$x' = \frac{x - x_{min}}{x_{max} - x_{min}}$$
+- **Đặc điểm:** Đưa toàn bộ giá trị về đoạn $[0, 1]$ (hoặc $[-1, 1]$).
+- **Hạn chế:** Rất nhạy cảm với ngoại lai (outliers). Một giá trị cực đoan sẽ ép phần lớn các điểm dữ liệu còn lại co cụm sát về 0.
+
+#### B. Standardization (Z-score Scaling)
+- **Công thức:** 
+  $$z = \frac{x - \mu}{\sigma}$$
+  *(Trong đó $\mu$ là giá trị trung bình, $\sigma$ là độ lệch chuẩn).*
+- **Đặc điểm:** Chuyển phân phối về dạng có trung bình $\mu = 0$ và độ lệch chuẩn $\sigma = 1$.
+- **Ưu điểm:** Không bị giới hạn chặn trên/dưới cố định, ít bị bóp méo bởi ngoại lai hơn so với Min-Max.
+
+#### C. Biến đổi Log (Log Transformation)
+- **Công thức:** 
+  $$x' = \log(x + 1)$$
+  *(Dùng $+1$ để tránh lỗi khi $x = 0$).*
+- **Ứng dụng:** Xử lý dữ liệu có phân phối lệch phải nghiêm trọng (phân phối đuôi dài - long-tail distribution) như giá nhà, lượt tương tác, doanh thu. Biến đổi Log giúp nén khoảng cách giữa các số cực lớn, đưa phân phối về gần dạng đối xứng hơn.
+
+---
+
+### 3. Bảng so sánh nhanh các phương pháp:
+
+| Phương pháp | Khoảng giá trị đầu ra | Độ nhạy với Ngoại lai (Outliers) | Trường hợp nên áp dụng |
+| :--- | :---: | :---: | :--- |
+| **Min-Max Scaling** | $[0, 1]$ | Rất cao | Thuật toán cần giới hạn cố định (như xử lý ảnh pixel $0-255$). |
+| **Standardization (Z-score)** | Không giới hạn cố định | Trung bình | Đa số các mô hình Gradient Descent, SVM, Logistic Regression. |
+| **Log Transformation** | $[0, +\infty)$ | Rất thấp | Dữ liệu lệch đuôi dài (thu nhập, doanh số, số lượt view). |
+
+---
+
+### 4. Cạm bẫy sống còn: Rò rỉ dữ liệu (Data Leakage) khi Scaling
+- **Sai lầm phổ biến:** Thực hiện `fit_transform` trên toàn bộ tập dữ liệu trước khi chia train/test:
+  - Việc này khiến thông tin về giá trị lớn nhất, nhỏ nhất, hoặc độ lệch chuẩn của tập Test bị rò rỉ vào quá trình chuẩn hóa tập Train.
+- **Quy tắc chuẩn mực:**
+  1. Chia tập `train_test_split` trước.
+  2. Chỉ tính toán tham số ($x_{min}, x_{max}, \mu, \sigma$) trên tập **Train** bằng `scaler.fit(X_train)`.
+  3. Dùng nguyên bộ tham số đó để biến đổi (`transform`) cho cả tập Train, tập Validation và tập Test.
+
+---
+
+### 🎙️ 5. Kịch bản thuyết trình mẫu (~1.5 phút):
+> *"Kính thưa thầy cô và các bạn, thao tác tiếp theo là **Scaling & Normalization** – tức đưa các biến về cùng một thang đo.  
+> - Trong thực tế, các biến thường có đơn vị khác biệt hoàn toàn: ví dụ cột `Tuổi` dao động từ 20 đến 60, nhưng cột `Thu nhập` dao động từ hàng chục đến hàng trăm triệu.  
+> - Với các mô hình tính khoảng cách như KNN hoặc SVM, biến `Thu nhập` sẽ chi phối toàn bộ kết quả, khiến biến `Tuổi` gần như bị vô hiệu hóa. Đồng thời, với mạng nơ-ron hoặc hồi quy, thang đo chênh lệch khiến Gradient Descent dao động zic-zac và hội tụ rất chậm. Riêng với các mô hình cây quyết định, bước này không bắt buộc vì phép chia nhánh chỉ phụ thuộc vào thứ tự tương đối.  
+> - Có hai phương pháp thông dụng: **Min-Max Scaling** đưa dữ liệu về khoảng 0 đến 1, nhưng rất dễ bị méo nếu có giá trị ngoại lai; và **Standardization (Z-score)** đưa về trung bình bằng 0, độ lệch chuẩn bằng 1, ổn định hơn khi có ngoại lai. Với các biến phân phối lệch đuôi dài như doanh thu, ta dùng thêm **Log transform**.  
+> - Một nguyên tắc sống còn khi làm việc: **Chỉ fit scaler trên tập Train**, sau đó mới áp dụng cùng tham số đó sang tập Test. Nếu tính min/max trên toàn bộ dữ liệu trước khi chia tập, chúng ta sẽ mắc lỗi rò rỉ dữ liệu (Data Leakage), làm kết quả đánh giá không còn chính xác."*
+
