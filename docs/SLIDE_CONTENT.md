@@ -12,7 +12,7 @@
 - **Phụ đề:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly, 2022)
 - **Thông tin môn học:** Seminar Môn Học Máy (Machine Learning)
 - **Giảng viên hướng dẫn:** `[Tên giảng viên]`
-- **Nhóm thực hiện:** `[Danh sách thành viên nhóm]`
+- **Người thực hiện:** `[Họ và tên sinh viên]`
 - **Gợi ý bố cục & trực quan:** Bố cục tối giản, nền tương phản cao, kèm biểu tượng minh họa luồng chuyển đổi dữ liệu thô thành vector đặc trưng.
 
 ---
@@ -230,7 +230,7 @@ Ba nguyên tắc cốt lõi từ Chapter 5:
   2. **StatQuest with Josh Starmer:** *Data Leakage in Machine Learning*; *One-Hot Encoding and Categorical Data*.
   3. **Made With ML (Goku Mohandas):** *Feature Engineering & Feature Store in Production*.
   4. **Google Cloud Tech:** *Best Practices for ML: Feature Engineering at Scale*.
-- **Gợi ý bố cục & trực quan:** Chia 2 cột gọn gàng: Sách tham khảo bên trái, Khóa học/Video bên phải (có thể kèm mã QR dẫn tới repository GitHub chứa ghi chú chi tiết của nhóm).
+- **Gợi ý bố cục & trực quan:** Chia 2 cột gọn gàng: Sách tham khảo bên trái, Khóa học/Video bên phải (có thể kèm mã QR dẫn tới repository GitHub chứa tài liệu và ghi chú chi tiết).
 
 ---
 

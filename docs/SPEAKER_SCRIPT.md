@@ -21,7 +21,7 @@
 ---
 
 ## Slide 1: Trang bìa *(0.5 phút)*
-> "Kính chào thầy/cô và các bạn. Hôm nay, nhóm chúng em xin trình bày chuyên đề Seminar Chương 5: **Feature Engineering** (Kỹ thuật trích xuất và tạo đặc trưng), dựa trên cuốn sách *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày của nhóm dự kiến kéo dài khoảng 22 phút."
+> "Kính chào thầy/cô và các bạn. Hôm nay, em xin trình bày chuyên đề Seminar Chương 5: **Feature Engineering** (Kỹ thuật trích xuất và tạo đặc trưng), dựa trên cuốn sách *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày dự kiến kéo dài khoảng 22 phút."
 
 ---
 
@@ -139,14 +139,14 @@
 ---
 
 ## Slide 15: Mở rộng thực tế – Feature Store & MLOps *(1.0 phút)*
-> "Để kết nối lý thuyết Chương 5 với kiến trúc hệ thống thực tế, nhóm xin giới thiệu ngắn gọn khái niệm **Feature Store**. Trong doanh nghiệp, một sự cố kỹ thuật rất hay gặp là **Training-Serving Skew**: đội ngũ khoa học dữ liệu viết công thức tính đặc trưng bằng Python lúc huấn luyện, nhưng đội ngũ kỹ sư hệ thống lại viết lại công thức đó bằng Java hoặc SQL lúc triển khai, dẫn đến sai số nhỏ làm mô hình dự đoán sai lệch.
+> "Để kết nối lý thuyết Chương 5 với kiến trúc hệ thống thực tế, em xin giới thiệu ngắn gọn khái niệm **Feature Store**. Trong doanh nghiệp, một sự cố kỹ thuật rất hay gặp là **Training-Serving Skew**: đội ngũ khoa học dữ liệu viết công thức tính đặc trưng bằng Python lúc huấn luyện, nhưng đội ngũ kỹ sư hệ thống lại viết lại công thức đó bằng Java hoặc SQL lúc triển khai, dẫn đến sai số nhỏ làm mô hình dự đoán sai lệch.
 >
 > **Feature Store** – với các nền tảng phổ biến như Feast hay Hopsworks – ra đời để giải quyết vấn đề này. Nó đóng vai trò là kho lưu trữ và quản lý định nghĩa đặc trưng tập trung, đảm bảo đồng nhất giữa môi trường huấn luyện offline và môi trường phục vụ online độ trễ thấp, đồng thời cho phép các nhóm khác nhau tái sử dụng lại các đặc trưng đã được kiểm chứng."
 
 ---
 
 ## Slide 16: Tổng kết & Bài học rút ra *(1.0 phút)*
-> "Để khép lại phần trình bày, nhóm xin đúc kết ba thông điệp cốt lõi từ Chương 5:
+> "Để khép lại phần trình bày, em xin đúc kết ba thông điệp cốt lõi từ Chương 5:
 >
 > Thứ nhất, **dữ liệu và hiểu biết nghiệp vụ là nền tảng**. Hãy chọn kỹ thuật xử lý missing, scaling hay mã hóa dựa trên cơ chế sinh ra dữ liệu và yêu cầu của từng họ thuật toán, đồng thời biết kết hợp cả đặc trưng thủ công và đặc trưng tự học khi cần thiết.
 >
@@ -157,12 +157,12 @@
 ---
 
 ## Slide 17: Tài liệu tham khảo & Video minh họa *(0.5 phút)*
-> "Trên đây là danh mục tài liệu tham khảo chính thức và các bài giảng video trực quan mà nhóm đã tổng hợp để phục vụ quá trình nghiên cứu chuyên đề này, bao gồm sách gốc của Chip Huyen, các đầu sách chuyên sâu về Feature Engineering của O'Reilly và chuỗi video giải thích trực quan từ Stanford CS 329S và StatQuest."
+> "Trên đây là danh mục tài liệu tham khảo chính thức và các bài giảng video trực quan mà em đã tổng hợp để phục vụ quá trình nghiên cứu chuyên đề này, bao gồm sách gốc của Chip Huyen, các đầu sách chuyên sâu về Feature Engineering của O'Reilly và chuỗi video giải thích trực quan từ Stanford CS 329S và StatQuest."
 
 ---
 
 ## Slide 18: Cảm ơn & Thảo luận (Q&A) *(0.5 phút + Thời gian hỏi đáp)*
-> "Phần trình bày của nhóm về Chương 5: Feature Engineering đến đây là kết thúc. Nhóm rất cảm ơn thầy/cô và các bạn đã chú ý lắng nghe. Sau đây, nhóm xin mời thầy/cô và các bạn đặt câu hỏi hoặc cùng thảo luận thêm về các nội dung vừa trình bày."
+> "Phần trình bày về Chương 5: Feature Engineering đến đây là kết thúc. Em xin cảm ơn thầy/cô và các bạn đã chú ý lắng nghe. Sau đây, em xin mời thầy/cô và các bạn đặt câu hỏi hoặc cùng thảo luận thêm về các nội dung vừa trình bày."
 
 ---
 
