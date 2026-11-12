@@ -45,5 +45,6 @@ Báo cáo chuyên đề Seminar môn Học Máy (Machine Learning).
 Xem chi tiết toàn bộ lý thuyết, kịch bản 18 slides và danh mục tài liệu/video tham khảo tại:  
 👉 [SEMINAR_NOTE_CHAPTER_5.md](SEMINAR_NOTE_CHAPTER_5.md)
 
-Xem nội dung chi tiết từng slide và lời thoại thuyết trình (20–25 phút) tại:  
-👉 [docs/SLIDE_AND_SCRIPT.md](docs/SLIDE_AND_SCRIPT.md)
+Xem nội dung chi tiết từng slide và lời thoại thuyết trình (20–25 phút) tại:
+- **Nội dung Slide:** [docs/SLIDE_CONTENT.md](docs/SLIDE_CONTENT.md)
+- **Lời thoại Thuyết trình:** [docs/SPEAKER_SCRIPT.md](docs/SPEAKER_SCRIPT.md)
