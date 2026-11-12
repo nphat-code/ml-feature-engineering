@@ -240,3 +240,4 @@ Ba nguyên tắc cốt lõi từ Chapter 5:
   1. Khi nào nên ưu tiên *Target Encoding* thay cho *Hashing Trick* (và ngược lại)?
   2. Trong bài toán gợi ý sản phẩm theo thời gian thực, làm thế nào để tránh *Data Leakage* khi tạo đặc trưng hành vi người dùng?
 - **Gợi ý bố cục & trực quan:** Thiết kế thoáng, nổi bật dòng chữ "Q&A – Trao đổi và Thảo luận" kèm thông tin liên hệ hoặc link repository tài liệu.
+

@@ -174,3 +174,4 @@
    - *Trả lời ngắn:* Không nên dùng tùy tiện. Target Encoding dễ gây rò rỉ nhãn mục tiêu và overfitting nếu một danh mục chỉ xuất hiện vài lần. Khi dùng bắt buộc phải tính toán trên từng fold của Cross-Validation (out-of-fold) và áp dụng kỹ thuật làm mượt (smoothing) kéo giá trị về trung bình toàn cục. Nếu danh mục quá lớn và liên tục phát sinh giá trị mới lúc vận hành, Hashing Trick sẽ an toàn hơn.
 3. **Hỏi: Làm sao phân biệt MAR và MNAR trong thực tế?**
    - *Trả lời ngắn:* Không có kiểm định thống kê thuần túy nào chứng minh chắc chắn hoàn toàn MNAR chỉ từ dữ liệu hiện có vì giá trị bị thiếu không quan sát được. Việc phân biệt chủ yếu dựa vào **kiến thức nghiệp vụ (domain knowledge)** và quy trình thu thập dữ liệu (ví dụ: hiểu tâm lý người thu nhập cao ngại khai báo, hoặc biết cảm biến hỏng ở dải nhiệt độ quá cao).
+
