@@ -55,7 +55,7 @@
 | **Khả năng giải thích** | Rõ ràng (White-box), minh bạch | Phức tạp (Black-box), vector ẩn |
 | **Tài nguyên & Dữ liệu** | Cần ít dữ liệu, chi phí tính toán thấp | Cần lượng dữ liệu lớn và GPU |
 
-- **Kết luận thực tế:** Kết hợp cả hai (ví dụ: YouTube dùng vector nhúng của video kết hợp với số lượt click gần đây của người dùng để xếp hạng gợi ý).
+- **Kết luận thực tế:** Kết hợp cả hai (ví dụ: YouTube dùng vector nhúng để hiểu nội dung video, kết hợp với các đặc trưng thủ công như số lượt click gần đây để sắp xếp thứ tự video hiển thị trên trang chủ).
 
 ---
 

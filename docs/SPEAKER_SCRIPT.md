@@ -51,7 +51,7 @@
 > - **Learned Features** do mạng nơ-ron tự trích xuất, cực kỳ mạnh trên dữ liệu phi cấu trúc như ảnh, video, văn bản; nhưng cần lượng dữ liệu khổng lồ, tốn GPU và là dạng hộp đen khó giải thích.
 > - **Engineered Features** do con người thiết kế dựa trên hiểu biết nghiệp vụ, lại là lựa chọn hàng đầu cho dữ liệu dạng bảng – loại dữ liệu phổ biến nhất trong tài chính, ngân hàng và bán lẻ. Nó nhẹ, cần ít dữ liệu hơn và giải thích được rõ ràng.
 >
-> Trong thực tế, các hệ thống lớn không chọn một trong hai mà kết hợp cả hai. Ví dụ hệ thống gợi ý của YouTube: họ dùng vector nhúng tự học để hiểu nội dung video, đồng thời dùng các đặc trưng thủ công như số lần click gần đây để xếp hạng kết quả cuối cùng."
+> Trong thực tế, các hệ thống lớn thường kết hợp cả hai. Chẳng hạn như YouTube, để quyết định video nào được hiện lên đầu trang chủ cho người dùng xem: họ vừa dùng vector nhúng tự học để hiểu nội dung video, vừa dùng các đặc trưng thủ công như lịch sử click gần đây để sắp xếp thứ tự hiển thị."
 
 ---
 
