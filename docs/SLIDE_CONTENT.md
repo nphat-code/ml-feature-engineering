@@ -21,7 +21,7 @@
 ## Slide 2: Mục tiêu & Nội dung chính
 1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
 2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
-3. **Các thao tác Feature Engineering cốt lõi:**
+3. **Các kỹ thuật Feature Engineering cốt lõi:**
    - Xử lý dữ liệu khuyết thiếu (Missing values).
    - Chuẩn hóa phạm vi (Scaling & Normalization).
    - Rời rạc hóa (Binning) & Mã hóa danh mục (Categorical Encoding).
@@ -59,8 +59,8 @@
 
 ---
 
-## Slide 5: Tổng quan các thao tác xử lý đặc trưng
-Chapter 5 tập trung vào 6 thao tác kỹ thuật cơ bản:
+## Slide 5: Tổng quan các kỹ thuật xử lý đặc trưng
+Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 1. **Handling Missing Values:** Nhận diện cơ chế và xử lý dữ liệu bị khuyết.
 2. **Scaling & Normalization:** Đưa các biến số về cùng thang đo.
 3. **Discretization (Binning):** Chuyển biến liên tục thành các khoảng rời rạc.
@@ -114,7 +114,7 @@ Chapter 5 tập trung vào 6 thao tác kỹ thuật cơ bản:
   - Giúp các mô hình tuyến tính nắm bắt tương tác phi tuyến phức tạp.
   - *Lưu ý:* Tránh tổ hợp các biến có quá nhiều danh mục vì gây bùng nổ số chiều.
 - **2. Positional Embeddings (Nhúng vị trí):**
-  - Áp dụng cho dữ liệu tuần tự (văn bản, chuỗi thao tác người dùng).
+  - Áp dụng cho dữ liệu tuần tự (văn bản, chuỗi hành vi người dùng).
   - Mô hình như Transformer xử lý song song nên không tự nhận biết thứ tự từ.
   - Giải pháp: Cộng thêm vector mã hóa vị trí vào từng vector đặc trưng đầu vào.
 
@@ -143,7 +143,7 @@ Chapter 5 tập trung vào 6 thao tác kỹ thuật cơ bản:
 
 ## Slide 12: Phòng chống & Phát hiện Data Leakage
 - **Quy tắc phòng chống:**
-  - **Luôn chia tập dữ liệu trước:** Mọi thao tác thống kê chỉ được học trên tập Train.
+  - **Luôn chia tập dữ liệu trước:** Mọi phép biến đổi thống kê chỉ được học trên tập Train.
   - **Sử dụng Pipeline:** Dùng `sklearn.pipeline.Pipeline` để đóng gói biến đổi và mô hình.
   - **Chia tập đúng bản chất:** Dùng **Temporal Split** cho dữ liệu thời gian; dùng **GroupKFold** cho dữ liệu theo nhóm đối tượng.
   - **Kiểm tra tính sẵn có:** Xác minh mọi đặc trưng đều đã tồn tại tại thời điểm dự đoán.

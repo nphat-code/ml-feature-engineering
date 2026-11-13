@@ -12,7 +12,7 @@
 | :--- | :---: | :---: |
 | Mở đầu & Đặt vấn đề | Slide 1 – 3 | 2.5 phút |
 | Phần 1: Learned Features vs. Engineered Features | Slide 4 | 1.5 phút |
-| Phần 2: Các thao tác Feature Engineering cốt lõi | Slide 5 – 9 | 7.0 phút |
+| Phần 2: Các kỹ thuật Feature Engineering cốt lõi | Slide 5 – 9 | 7.0 phút |
 | Phần 3: Data Leakage (Rò rỉ dữ liệu) | Slide 10 – 12 | 5.0 phút |
 | Phần 4: Engineering Good Features | Slide 13 – 14 | 3.0 phút |
 | Tổng kết, Tài liệu tham khảo & Q&A | Slide 15 – 17 | 1.5 phút (+ Q&A) |
@@ -55,13 +55,13 @@
 
 ---
 
-## Slide 5: Tổng quan các thao tác xử lý đặc trưng *(0.5 phút)*
-> "Đi vào phần kỹ thuật, Chip Huyen đúc kết 6 thao tác cơ bản nhất: xử lý dữ liệu khuyết thiếu, chuẩn hóa phạm vi, rời rạc hóa, mã hóa biến phân loại, tổ hợp đặc trưng và nhúng vị trí. Mình sẽ đi nhanh qua bản chất và lưu ý quan trọng của từng thao tác."
+## Slide 5: Tổng quan các kỹ thuật xử lý đặc trưng *(0.5 phút)*
+> "Về mặt kỹ thuật, Chip Huyen đúc kết 6 phương pháp xử lý đặc trưng phổ biến nhất: xử lý dữ liệu khuyết thiếu, chuẩn hóa thang đo, rời rạc hóa, mã hóa biến phân loại, tổ hợp đặc trưng và nhúng vị trí. Bây giờ mình sẽ đi lần lượt qua bản chất và điểm cần lưu ý của từng phương pháp."
 
 ---
 
 ## Slide 6: Xử lý dữ liệu khuyết thiếu *(1.5 phút)*
-> "Khi thấy dữ liệu bị khuyết ô `NaN`, đừng vội xóa dòng hay điền bừa số trung bình. Ta cần xác định lý do dữ liệu bị thiếu:
+> "Đầu tiên là xử lý dữ liệu khuyết thiếu. Khi thấy dữ liệu bị khuyết ô `NaN`, đừng vội xóa dòng hay điền bừa số trung bình. Ta cần xác định lý do dữ liệu bị thiếu:
 > - **MCAR:** Thiếu ngẫu nhiên hoàn toàn do lỗi kỹ thuật (như rớt mạng mất log).
 > - **MAR:** Thiếu phụ thuộc vào một cột khác đã biết (như phụ nữ ít điền cân nặng hơn nam).
 > - **MNAR:** Thiếu vì chính giá trị đó (như người thu nhập rất cao từ chối khai báo lương).
@@ -71,7 +71,7 @@
 ---
 
 ## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling) *(1.5 phút)*
-> "Thao tác thứ hai là đưa các biến số về cùng thang đo. Trong một bảng, `Tuổi` từ 18–60 nhưng `Thu nhập` lên tới hàng chục triệu.
+> "Bước tiếp theo là Chuẩn hóa thang đo (Scaling), tức đưa các biến số về cùng một khoảng giá trị hợp lý. Trong một bảng, `Tuổi` từ 18–60 nhưng `Thu nhập` lên tới hàng chục triệu.
 >
 > - Các mô hình tính khoảng cách như KNN, SVM, hay mạng nơ-ron dùng Gradient Descent **bắt buộc phải chuẩn hóa** để thuật toán không bị biến số lớn chi phối và hội tụ nhanh hơn.
 > - Ngược lại, các mô hình dạng cây như Random Forest hay XGBoost **không cần bước này**, vì chúng chỉ phân nhánh theo thứ tự lớn nhỏ.
@@ -83,9 +83,9 @@
 ---
 
 ## Slide 8: Rời rạc hóa & Mã hóa biến phân loại *(2.0 phút)*
-> "Thao tác thứ ba là **Rời rạc hóa (Binning)**, tức chia biến liên tục thành từng khoảng nhỏ, giúp các mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của ngoại lai.
+> "Kỹ thuật thứ ba là **Rời rạc hóa (Binning)**, tức chia biến liên tục thành từng khoảng nhỏ, giúp các mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của ngoại lai.
 >
-> Thao tác thứ tư là **Mã hóa biến phân loại (Encoding)** để đổi chữ thành số:
+> Tiếp theo là **Mã hóa biến phân loại (Encoding)** để chuyển dạng chữ thành số cho mô hình học:
 > - **Ordinal Encoding:** Gán số thứ tự $0, 1, 2...$, chỉ dùng khi biến thực sự có thứ tự tự nhiên (*Thấp, Trung bình, Cao*).
 > - **One-Hot Encoding:** Tạo cột nhị phân `0/1`, tốt khi có ít danh mục. Nếu có hàng nghìn mã sản phẩm, One-Hot sẽ làm bùng nổ số chiều.
 > - **Target Encoding:** Thay danh mục bằng trung bình của nhãn mục tiêu, rất mạnh cho dữ liệu dạng bảng nhiều danh mục, nhưng cần kỹ thuật làm mượt (smoothing) để tránh quá khớp.
@@ -94,11 +94,11 @@
 ---
 
 ## Slide 9: Feature Crossing & Positional Embeddings *(1.5 phút)*
-> "Hai thao tác tiếp theo:
+> "Hai kỹ thuật tiếp theo là:
 >
 > **Feature Crossing** là ghép hai hoặc nhiều biến lại thành biến mới, ví dụ ghép `Loại xe` với `Khung giờ`. Cách này giúp mô hình tuyến tính nắm bắt được tương tác phức tạp giữa các thuộc tính mà không cần chuyển sang mô hình phi tuyến nặng nề. Nhưng lưu ý: tránh ghép các cột có quá nhiều giá trị vì sẽ làm số chiều tăng vọt.
 >
-> Còn **Positional Embeddings** dành cho dữ liệu dạng chuỗi như chữ viết hay lịch sử thao tác. Các mô hình như Transformer xử lý song song nên không tự biết từ nào đứng trước, từ nào đứng sau. Ta cộng thêm một vector mã hóa vị trí vào đặc trưng đầu vào để mô hình nắm bắt được thứ tự tuần tự của chuỗi."
+> Còn **Positional Embeddings** dành cho dữ liệu dạng chuỗi như chữ viết hay chuỗi hành vi người dùng. Các mô hình như Transformer xử lý song song nên không tự biết từ nào đứng trước, từ nào đứng sau. Ta cộng thêm một vector mã hóa vị trí vào đặc trưng đầu vào để mô hình nắm bắt được thứ tự tuần tự của chuỗi."
 
 ---
 
