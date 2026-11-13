@@ -108,28 +108,27 @@
 
 ---
 
-## III. DÀN Ý SLIDE THUYẾT TRÌNH (18 SLIDES / 20 - 25 PHÚT)
+## III. DÀN Ý SLIDE THUYẾT TRÌNH (17 SLIDES / 20 PHÚT)
 
 | Slide | Tiêu đề slide | Nội dung chính |
 | :---: | :--- | :--- |
-| **1** | Trang bìa | Tên đề tài: Chapter 5 - Feature Engineering, Giảng viên, Thành viên nhóm |
-| **2** | Tổng quan nội dung | 4 phần chính: Learned vs Engineered, Common Operations, Data Leakage, Good Features |
-| **3** | Đặt vấn đề: Tầm quan trọng của Feature Engineering | Câu nói nổi tiếng của Andrew Ng: "Applied machine learning is basically feature engineering." |
-| **4** | Learned Features vs Engineered Features | So sánh ưu/nhược điểm, khi nào dùng phương pháp nào |
-| **5** | Common Operations: Tổng quan | Sơ đồ phân nhánh các kỹ thuật xử lý |
-| **6** | Xử lý Missing Values | 3 loại MCAR, MAR, MNAR; kỹ thuật Imputation & Missing Indicator |
-| **7** | Chuẩn hóa dữ liệu (Scaling) | Min-Max vs Standardization; cạm bẫy fit scaler sai cách |
-| **8** | Rời rạc hóa (Discretization) & Mã hóa (Encoding) | Binning; One-hot vs Ordinal vs Target Encoding; Hashing Trick |
-| **9** | Feature Crossing & Positional Embeddings | Tạo đặc trưng kết hợp; ứng dụng trong Transformer & Time Series |
-| **10** | **Data Leakage: Hiểm họa tiềm ẩn** | Khái niệm & tại sao mô hình 99% accuracy lại sập trên Production |
-| **11** | Các nguyên nhân gây Data Leakage phổ biến | Split sai thứ tự, Time leakage, Group leakage, Target proxy |
-| **12** | Giải pháp phòng ngừa Data Leakage | Sklearn Pipeline, Temporal split, GroupKFold, Data sanity check |
-| **13** | Đánh giá đặc trưng: Feature Importance | Permutation Importance, SHAP values - Giải thích mô hình |
-| **14** | Khả năng tổng quát hóa (Feature Generalization) | Coverage, Stability, tránh Overfitting do đặc trưng quá chi tiết |
-| **15** | Mở rộng thực tế: Feature Store & MLOps | Giới thiệu ngắn về Feature Store (Feast, Hopsworks) giải quyết Training-Serving Skew |
-| **16** | Tổng kết & Bài học rút ra | 3 takeaways chính: Đúng bản chất dữ liệu, Tránh Leakage, Đơn giản trước phức tạp sau |
-| **17** | References & Video Links | Danh mục tài liệu sách, bài báo và link YouTube hay |
-| **18** | Q&A | Lời cảm ơn và câu hỏi thảo luận |
+| **1** | Trang bìa | Tên đề tài: Chapter 5 - Feature Engineering, Giảng viên, Người thực hiện |
+| **2** | Mục tiêu & Nội dung chính | 4 phần: Bản chất Feature Engineering, Learned vs Engineered, Các thao tác cốt lõi, Data Leakage & Good Features |
+| **3** | Đặt vấn đề: Tầm quan trọng của Feature Engineering | Nguyên lý "Garbage In, Garbage Out"; 2 lý do bắt buộc; ví dụ chuyến xe công nghệ |
+| **4** | Learned Features vs Engineered Features | So sánh ưu/nhược điểm, bảng đối chiếu, kết hợp thực tế (YouTube) |
+| **5** | Common Operations: Tổng quan | Sơ đồ phân nhánh 6 kỹ thuật xử lý đặc trưng cốt lõi |
+| **6** | Xử lý Missing Values | 3 cơ chế MCAR, MAR, MNAR; kỹ thuật Imputation & Missing Indicator |
+| **7** | Chuẩn hóa dữ liệu (Scaling) | Min-Max vs Standardization vs Log Transform; nguyên tắc chỉ fit trên Train |
+| **8** | Rời rạc hóa (Discretization) & Mã hóa (Encoding) | Binning; Ordinal vs One-Hot vs Target Encoding vs Hashing Trick |
+| **9** | Feature Crossing & Positional Embeddings | Tạo đặc trưng kết hợp; nhúng vị trí trong chuỗi dữ liệu (Transformer) |
+| **10** | **Data Leakage: Hiểm họa tiềm ẩn** | Khái niệm & ví dụ y tế (mô hình 99% accuracy thất bại ngoài thực tế) |
+| **11** | 5 Nguyên nhân gây Data Leakage phổ biến | Split sau transform, Time leakage, Group leakage, Duplicate data, Target proxy |
+| **12** | Giải pháp phòng ngừa & Nhận biết Data Leakage | Sklearn Pipeline, Temporal split, GroupKFold, kiểm tra Point-in-time |
+| **13** | Đánh giá đặc trưng: Feature Importance | Loại bỏ nhiễu, Permutation Importance, SHAP values |
+| **14** | Khả năng tổng quát hóa (Feature Generalization) | Feature Coverage, Distribution Stability (chống Data Drift) |
+| **15** | Tổng kết & Bài học cốt lõi | 3 thông điệp chính: Hiểu dữ liệu, Chặn Leakage từ đầu, Đơn giản & bền vững |
+| **16** | Tài liệu tham khảo | Danh mục sách chuẩn và video trực quan (Stanford, StatQuest) |
+| **17** | Q&A | Lời cảm ơn và câu hỏi thảo luận |
 
 ---
 

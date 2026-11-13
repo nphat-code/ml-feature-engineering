@@ -1,243 +1,201 @@
 # Nội dung Slide Thuyết trình Seminar
 **Chủ đề:** Chapter 5: Feature Engineering  
-**Tài liệu chính:** *Designing Machine Learning Systems: An Iterative Process for Production-Ready Applications* – Chip Huyen (O'Reilly Media, 2022)  
-**Tổng số slide:** 18 slides  
+**Tài liệu chính:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly Media, 2022)  
+**Tổng số slide:** 17 slides  
+**Thời lượng dự kiến:** 20 phút (thuyết trình) + 5 phút (hỏi đáp)
 
-> Xem lời thoại thuyết trình tương ứng từng slide tại: [SPEAKER_SCRIPT.md](SPEAKER_SCRIPT.md)
+> Xem lời thoại tương ứng từng slide tại: [SPEAKER_SCRIPT.md](SPEAKER_SCRIPT.md)
 
 ---
 
 ## Slide 1: Trang bìa
 - **Tiêu đề chính:** Chapter 5: Feature Engineering
-- **Phụ đề:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly, 2022)
-- **Thông tin môn học:** Seminar Môn Học Máy (Machine Learning)
+- **Phụ đề:** *Designing Machine Learning Systems* – Chip Huyen
+- **Môn học:** Seminar Học Máy (Machine Learning)
 - **Giảng viên hướng dẫn:** `[Tên giảng viên]`
 - **Người thực hiện:** `[Họ và tên sinh viên]`
-- **Gợi ý bố cục & trực quan:** Bố cục tối giản, nền tương phản cao, kèm biểu tượng minh họa luồng chuyển đổi dữ liệu thô thành vector đặc trưng.
+- **Gợi ý trực quan:** Bố cục tối giản, sơ đồ dòng chảy dữ liệu: `Raw Data` $\rightarrow$ `Feature Engineering` $\rightarrow$ `Model`.
 
 ---
 
-## Slide 2: Tổng quan nội dung (Agenda)
-1. **Đặt vấn đề:** Tại sao Feature Engineering quyết định hiệu năng mô hình?
-2. **Learned Features vs. Engineered Features:** So sánh và cách kết hợp thực tế.
-3. **Common Feature Engineering Operations:** Các kỹ thuật xử lý đặc trưng phổ biến.
-4. **Data Leakage (Rò rỉ dữ liệu):** Nguyên nhân, nhận diện và phòng chống.
-5. **Engineering Good Features & Production:** Đánh giá, tổng quát hóa và Feature Store.
-- **Gợi ý bố cục & trực quan:** Sơ đồ lộ trình 5 bước (timeline hoặc 5 thẻ đánh số) để người nghe dễ theo dõi cấu trúc bài nói.
+## Slide 2: Mục tiêu & Nội dung chính
+1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
+2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
+3. **Các thao tác Feature Engineering cốt lõi:**
+   - Xử lý dữ liệu khuyết thiếu (Missing values).
+   - Chuẩn hóa phạm vi (Scaling & Normalization).
+   - Rời rạc hóa (Binning) & Mã hóa danh mục (Categorical Encoding).
+   - Tổ hợp đặc trưng (Feature Crossing) & Nhúng vị trí (Positional Embeddings).
+4. **Data Leakage (Rò rỉ dữ liệu):** Nguyên nhân, cách phát hiện và phòng ngừa.
+5. **Engineering Good Features:** Đánh giá độ quan trọng và khả năng tổng quát hóa.
+- **Gợi ý trực quan:** Sơ đồ 5 khối nội dung nối tiếp rõ ràng.
 
 ---
 
 ## Slide 3: Đặt vấn đề – Tầm quan trọng của Feature Engineering
-- **Định nghĩa:** Feature Engineering là quá trình biến đổi dữ liệu thô thành các đặc trưng hữu ích để mô hình học máy học được quy luật một cách hiệu quả nhất.
-- **Trích dẫn:** *"Applied machine learning is basically feature engineering."* — Andrew Ng
-- **Nguyên lý cốt lõi:** *"Garbage In, Garbage Out"* – Đầu vào là rác thì đầu ra cũng là rác.
-- **Hai lý do cần Feature Engineering:**
-  1. **Mô hình chỉ hiểu dữ liệu dạng số:** Cần chuẩn hóa văn bản, ngày giờ, ô trống (`NaN`) và thang đo.
-  2. **Mô hình không tự hiểu ngữ cảnh nghiệp vụ:** Con người cần đưa kiến thức thực tế vào đặc trưng.
-- **Ví dụ minh họa (Dự đoán thời gian chuyến xe):**
-  - *Dữ liệu thô:* Tọa độ đón/trả, thời điểm `"17:45:00"`, thời tiết `"Mưa to"`.
-  - *Đặc trưng tạo mới:* `khoang_cach_km = 8.5`, `is_rush_hour = 1`, `is_rain = 1`.
-- **Thực tế (Facebook, 2014):** Trong bài toán dự đoán click quảng cáo, tìm ra đúng đặc trưng mang lại hiệu quả cải thiện vượt trội so với việc chỉ tinh chỉnh thuật toán.
-- **Gợi ý bố cục & trực quan:** Chia 2 cột: Cột trái nêu nguyên lý và 2 lý do cốt lõi; Cột phải minh họa sơ đồ chuyển đổi từ bảng dữ liệu thô sang bảng đặc trưng số cho ví dụ chuyến xe.
+- **Định nghĩa:** Quá trình biến đổi dữ liệu thô thành các đặc trưng giúp mô hình học quy luật hiệu quả nhất.
+- **Nguyên lý cốt lõi:** *"Garbage In, Garbage Out"* – Dữ liệu đầu vào kém thì mô hình không thể cho kết quả tốt.
+- **Hai lý do bắt buộc phải làm Feature Engineering:**
+  1. *Mô hình chỉ hiểu dữ liệu số:* Dữ liệu thực tế chứa văn bản, ngày giờ, ô trống (`NaN`), thang đo chênh lệch.
+  2. *Mô hình không tự hiểu nghiệp vụ:* Cần đưa kiến thức thực tế vào đặc trưng.
+- **Ví dụ (Dự đoán thời gian chuyến xe):**
+  - *Dữ liệu thô:* Tọa độ `(10.77, 106.70)`, giờ `"17:45"`, thời tiết `"Mưa to"`.
+  - *Đặc trưng tạo mới:* `khoang_cach = 8.5 km`, `is_rush_hour = 1`, `is_rain = 1`.
+  - $\rightarrow$ Mô hình dự đoán chính xác hơn so với việc để tự suy luận từ chuỗi thô.
+- **Thực tế:** Tại Facebook (2014), việc tìm ra đúng đặc trưng giúp cải thiện hiệu năng dự đoán click quảng cáo vượt trội hơn nhiều so với việc tinh chỉnh thuật toán.
 
 ---
 
 ## Slide 4: Learned Features vs. Engineered Features
-- **Câu hỏi đặt ra:** Khi Deep Learning có thể tự học đặc trưng, Feature Engineering thủ công có còn cần thiết?
+- **Vấn đề:** Deep Learning tự học được đặc trưng, vậy có cần tạo đặc trưng thủ công?
 
 | Tiêu chí | Engineered Features (Thủ công) | Learned Features (Mô hình tự học) |
 | :--- | :--- | :--- |
-| **Nguồn gốc** | Con người thiết kế từ kiến thức nghiệp vụ | Mạng nơ-ron tự trích xuất trong quá trình huấn luyện |
-| **Dữ liệu phù hợp** | Dữ liệu dạng bảng (Tabular Data: Excel, SQL) | Dữ liệu phi cấu trúc (Hình ảnh, Âm thanh, Văn bản) |
-| **Khả năng giải thích** | Cao (White-box), rõ nguyên nhân dự đoán | Thấp (Black-box), biểu diễn dạng vector |
-| **Yêu cầu tài nguyên** | Ít dữ liệu hơn, chi phí tính toán thấp | Cần lượng dữ liệu rất lớn và phần cứng GPU |
+| **Nguồn gốc** | Con người thiết kế từ kiến thức nghiệp vụ | Mạng nơ-ron tự trích xuất |
+| **Dữ liệu phù hợp** | Dữ liệu dạng bảng (Tabular: Excel, SQL) | Dữ liệu phi cấu trúc (Ảnh, Âm thanh, Text) |
+| **Khả năng giải thích** | Rõ ràng (White-box), minh bạch | Phức tạp (Black-box), vector ẩn |
+| **Tài nguyên & Dữ liệu** | Cần ít dữ liệu, chi phí tính toán thấp | Cần lượng dữ liệu lớn và GPU |
 
-- **Thực tế trong Production:** Không thay thế nhau mà **kết hợp cả hai**.
-  - *Ví dụ (Hệ thống gợi ý YouTube/Shopee):* Dùng **Learned Features** (vector embedding của video/sản phẩm) kết hợp với **Engineered Features** (số lần click trong 1 giờ qua, vị trí, thời gian).
-- **Gợi ý bố cục & trực quan:** Đặt bảng so sánh ở trung tâm; phía dưới là sơ đồ khối minh họa luồng kết hợp cả 2 loại đặc trưng đi vào mô hình xếp hạng (Ranking Model).
+- **Kết luận thực tế:** Kết hợp cả hai (ví dụ: YouTube dùng vector nhúng của video kết hợp với số lượt click gần đây của người dùng để xếp hạng gợi ý).
 
 ---
 
-## Slide 5: Common Feature Engineering Operations – Tổng quan
-6 nhóm thao tác xử lý đặc trưng phổ biến trong Chapter 5:
-1. **Handling Missing Values:** Xử lý dữ liệu khuyết thiếu.
-2. **Scaling & Normalization:** Chuẩn hóa phạm vi và phân phối dữ liệu.
-3. **Discretization (Binning):** Rời rạc hóa biến liên tục.
-4. **Encoding Categorical Features:** Mã hóa biến phân loại sang dạng số.
-5. **Feature Crossing:** Tổ hợp chéo các đặc trưng.
-6. **Positional Embeddings:** Nhúng thông tin vị trí cho dữ liệu tuần tự.
-- **Gợi ý bố cục & trực quan:** Sơ đồ cây hoặc 6 thẻ (grid 2x3) tóm tắt tên kỹ thuật kèm mục tiêu 1 dòng ngắn cho mỗi kỹ thuật.
+## Slide 5: Tổng quan các thao tác xử lý đặc trưng
+Chapter 5 tập trung vào 6 thao tác kỹ thuật cơ bản:
+1. **Handling Missing Values:** Nhận diện cơ chế và xử lý dữ liệu bị khuyết.
+2. **Scaling & Normalization:** Đưa các biến số về cùng thang đo.
+3. **Discretization (Binning):** Chuyển biến liên tục thành các khoảng rời rạc.
+4. **Categorical Encoding:** Mã hóa biến chữ/danh mục sang số.
+5. **Feature Crossing:** Tổ hợp chéo các biến để nắm bắt tương tác.
+6. **Positional Embeddings:** Nhúng thông tin vị trí cho dữ liệu dạng chuỗi.
+- **Gợi ý trực quan:** Lộ trình 6 bước theo dạng thẻ (grid 3x2).
 
 ---
 
-## Slide 6: Xử lý dữ liệu khuyết thiếu (Handling Missing Values)
-- **Bước 1: Hiểu 3 cơ chế gây thiếu dữ liệu**
-  - **MCAR (Missing Completely at Random):** Thiếu hoàn toàn ngẫu nhiên (vd: lỗi đường truyền làm mất vài dòng log).
-  - **MAR (Missing at Random):** Việc thiếu phụ thuộc vào một biến khác đã quan sát (vd: tỷ lệ bỏ trống cân nặng khác nhau theo giới tính).
-  - **MNAR (Missing Not at Random):** Lý do thiếu phụ thuộc chính vào giá trị bị thiếu (vd: người có thu nhập rất cao từ chối khai báo mức lương).
-- **Bước 2: Lựa chọn phương pháp xử lý**
-  - **Deletion (Xóa dòng/cột):** Chỉ áp dụng khi tỷ lệ thiếu rất nhỏ (< 1–2%) và thuộc dạng MCAR. Tránh dùng với MNAR vì gây sai lệch mẫu.
-  - **Imputation (Điền khuyết):**
-    - Thống kê đơn giản: Mean, Median (ưu tiên khi có ngoại lai), Mode (biến phân loại).
-    - Dựa trên mô hình: KNN Imputer, MICE (Iterative Imputer).
-  - **Missing Indicator (Cột cờ đánh dấu):** Tạo thêm biến nhị phân `is_missing = 1` để giữ lại thông tin về hành vi không khai báo.
-- **Gợi ý bố cục & trực quan:** Bên trái: Bảng tóm tắt 3 cơ chế MCAR, MAR, MNAR. Bên phải: Bảng dữ liệu mẫu minh họa việc điền Median kết hợp thêm cột `income_is_missing`.
+## Slide 6: Xử lý dữ liệu khuyết thiếu (Missing Values)
+- **1. Phân biệt 3 cơ chế thiếu:**
+  - **MCAR (Thiếu hoàn toàn ngẫu nhiên):** Do lỗi khách quan, không phụ thuộc biến nào (vd: đứt mạng rớt vài dòng log).
+  - **MAR (Thiếu ngẫu nhiên theo biến khác):** Phụ thuộc biến đã biết (vd: phụ nữ ít khai cân nặng hơn nam).
+  - **MNAR (Thiếu không ngẫu nhiên):** Phụ thuộc chính giá trị đó (vd: người thu nhập rất cao từ chối khai mức lương).
+- **2. Lựa chọn cách xử lý:**
+  - *Xóa (Deletion):* Chỉ dùng khi tỷ lệ thiếu rất thấp (< 1–2%) và là MCAR. Không xóa khi MNAR vì làm mất nhóm dữ liệu đặc trưng.
+  - *Điền khuyết (Imputation):* Mean, Median (tốt khi có ngoại lai), hoặc mô hình dự đoán (KNN).
+  - *Cột cờ Missing Indicator:* Thêm cột `income_is_missing = 1` để giữ lại thông tin về hành vi không khai báo.
 
 ---
 
-## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling & Normalization)
-- **Vấn đề:** Chênh lệch thang đo giữa các biến (vd: `Tuoi` 18–65 vs. `Thu_nhap` 5–100 triệu).
-- **Tác động theo nhóm thuật toán:**
-  - *Thuật toán khoảng cách (KNN, SVM, K-Means):* Biến giá trị lớn chi phối khoảng cách Euclidean.
-  - *Gradient Descent (Regression, Neural Nets):* Hàm mất mát bị kéo dẹt dạng elip, cập nhật dao động zic-zac, hội tụ chậm.
-  - *Mô hình cây (Decision Tree, Random Forest, XGBoost):* **Không bị ảnh hưởng** vì chỉ xét thứ tự giá trị.
-- **Ba phương pháp phổ biến:**
-  - **Min-Max Scaling:** $x' = \frac{x - x_{min}}{x_{max} - x_{min}} \in [0, 1]$. Nhạy cảm cao với ngoại lai (outliers).
-  - **Standardization (Z-score):** $z = \frac{x - \mu}{\sigma}$ ($\mu = 0, \sigma = 1$). Ổn định hơn trước ngoại lai.
-  - **Log Transformation:** $x' = \log(x + 1)$. Xử lý phân phối lệch phải đuôi dài (doanh thu, lượt xem).
-- **Nguyên tắc bắt buộc:** Chỉ `fit` trên tập **Train**, sau đó `transform` sang tập Validation/Test để tránh rò rỉ dữ liệu.
-- **Gợi ý bố cục & trực quan:** Minh họa đồ thị đường đồng mức (contour plot) trước và sau Scaling cho Gradient Descent; kèm bảng so sánh 3 phương pháp.
+## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling)
+- **Lý do cần Scaling:** Tránh trường hợp biến số lớn (Thu nhập: hàng chục triệu) lấn át biến số nhỏ (Tuổi: 18–60).
+- **Tác động theo thuật toán:**
+  - *KNN, SVM, Gradient Descent:* **Bắt buộc**, giúp thuật toán tính khoảng cách chính xác và hội tụ nhanh.
+  - *Mô hình cây (Decision Tree, XGBoost):* **Không cần**, vì chỉ chia nhánh dựa trên thứ tự giá trị.
+- **3 phương pháp chính:**
+  1. **Min-Max Scaling:** Ép về đoạn $[0, 1]$. Rất nhạy cảm với ngoại lai (outliers).
+  2. **Standardization (Z-score):** Đưa về trung bình $\mu = 0$, độ lệch chuẩn $\sigma = 1$. Ổn định trước ngoại lai.
+  3. **Log Transformation:** $x' = \log(x + 1)$, nén khoảng cách cho dữ liệu lệch đuôi dài (doanh thu, view).
+- **Nguyên tắc sống còn:** Chỉ `fit` trên tập **Train**, dùng tham số đó để `transform` cho tập Test.
 
 ---
 
-## Slide 8: Rời rạc hóa (Discretization) & Mã hóa biến phân loại (Encoding)
-- **1. Discretization (Binning):** Chia biến liên tục thành các khoảng rời rạc.
-  - *Cách chia:* Equal-width (khoảng đều), Equal-frequency (theo phân vị/quantile), hoặc theo nghiệp vụ (nhóm tuổi).
-  - *Lợi ích:* Giúp mô hình tuyến tính học được quan hệ phi tuyến, giảm nhiễu và ngoại lai. *Lưu ý:* Có thể mất thông tin chi tiết ở vùng biên khoảng.
-- **2. Encoding Categorical Features:**
-
-| Phương pháp | Cơ chế | Phù hợp khi | Nhược điểm / Lưu ý |
-| :--- | :--- | :--- | :--- |
-| **Ordinal** | Gán số nguyên $0, 1, 2...$ | Có thứ tự tự nhiên (Thấp < TB < Cao) | Gây ngộ nhận thứ tự nếu biến không có thứ tự |
-| **One-Hot** | Vector nhị phân $[0, 1, 0]$ | Ít danh mục (low cardinality) | Ma trận thưa, bùng nổ số chiều khi nhiều danh mục |
-| **Target** | Thay bằng trung bình nhãn mục tiêu | Nhiều danh mục, mô hình dạng bảng | Dễ overfitting/leakage $\rightarrow$ cần làm mượt (smoothing) & CV |
-| **Hashing Trick** | Dùng hàm băm ánh xạ vào mảng cố định | Số danh mục rất lớn, có danh mục mới khi deploy | Có thể xảy ra xung đột băm (hash collision), khó giải thích |
-
-- **Gợi ý bố cục & trực quan:** Nửa trên minh họa biểu đồ biến đổi `Tuổi` liên tục thành 4 nhóm (bins). Nửa dưới trình bày bảng so sánh 4 phương pháp Encoding.
+## Slide 8: Rời rạc hóa & Mã hóa biến phân loại
+- **1. Discretization (Binning):**
+  - Chia biến liên tục thành các khoảng (Equal-width, Quantile, hoặc theo ngưỡng nghiệp vụ).
+  - Giúp mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của nhiễu.
+- **2. Categorical Encoding (Mã hóa danh mục):**
+  - **Ordinal Encoding:** Gán số $0, 1, 2...$ — chỉ dùng khi có thứ tự thật (*Thấp, Trung bình, Cao*).
+  - **One-Hot Encoding:** Tạo cột nhị phân $[0, 1]$ — phù hợp khi số danh mục ít; tránh dùng khi có hàng nghìn danh mục.
+  - **Target Encoding:** Thay danh mục bằng trung bình nhãn mục tiêu — hiệu quả cho bảng nhiều danh mục, cần kỹ thuật làm mượt (smoothing) để tránh quá khớp.
+  - **Hashing Trick:** Dùng hàm băm ánh xạ danh mục vào vector cố định — tối ưu bộ nhớ và xử lý được danh mục mới lúc vận hành.
 
 ---
 
 ## Slide 9: Feature Crossing & Positional Embeddings
 - **1. Feature Crossing (Tổ hợp chéo đặc trưng):**
-  - Tạo đặc trưng mới bằng cách kết hợp 2 hay nhiều đặc trưng gốc (ví dụ: `Loai_xe` $\times$ `Khung_gio`, hoặc `Vi_do` $\times$ `Kinh_do`).
-  - *Tác dụng:* Giúp mô hình tuyến tính học được sự tương tác phức tạp giữa các biến.
-  - *Lưu ý:* Nếu hai biến đều có nhiều danh mục ($M \times N$), số chiều sẽ tăng rất nhanh $\rightarrow$ cần chọn lọc hoặc dùng kết hợp với Hashing/Regularization.
+  - Ghép 2 hoặc nhiều biến thành đặc trưng mới (vd: `Loại_xe` $\times$ `Khung_giờ`).
+  - Giúp các mô hình tuyến tính nắm bắt tương tác phi tuyến phức tạp.
+  - *Lưu ý:* Tránh tổ hợp các biến có quá nhiều danh mục vì gây bùng nổ số chiều.
 - **2. Positional Embeddings (Nhúng vị trí):**
-  - *Bối cảnh:* Dữ liệu chuỗi (văn bản NLP, lịch sử click, chuỗi thời gian) phụ thuộc vào thứ tự xuất hiện.
-  - *Vấn đề:* Kiến trúc xử lý song song như Transformer không tự phân biệt được thứ tự phần tử.
-  - *Giải pháp:* Cộng thêm vector biểu diễn vị trí (dạng hàm Sin/Cos cố định hoặc vector học được) vào vector đặc trưng đầu vào để mô hình hiểu vị trí tương đối và tuyệt đối.
-- **Gợi ý bố cục & trực quan:** Nửa trái: Ma trận giao giữa `Loại xe` và `Khung giờ` minh họa Feature Crossing. Nửa phải: Sơ đồ cộng `Token Embedding + Positional Embedding` trong chuỗi đầu vào.
+  - Áp dụng cho dữ liệu tuần tự (văn bản, chuỗi thao tác người dùng).
+  - Mô hình như Transformer xử lý song song nên không tự nhận biết thứ tự từ.
+  - Giải pháp: Cộng thêm vector mã hóa vị trí vào từng vector đặc trưng đầu vào.
 
 ---
 
-## Slide 10: Data Leakage – Vấn đề nghiêm trọng trong triển khai ML
-- **Khái niệm:** **Data Leakage (Rò rỉ dữ liệu)** xảy ra khi thông tin từ nhãn mục tiêu hoặc từ tương lai vô tình xuất hiện trong dữ liệu đầu vào lúc huấn luyện, nhưng không có sẵn tại thời điểm dự đoán thực tế.
+## Slide 10: Data Leakage – Khái niệm & Tác hại
+- **Định nghĩa:** Thông tin từ tập kiểm thử hoặc từ tương lai vô tình lọt vào quá trình huấn luyện, nhưng không có sẵn tại thời điểm dự đoán thật.
 - **Hệ quả thực tế:**
-  - Trên tập kiểm thử nội bộ (Offline): Độ chính xác rất cao (ví dụ 98–99%).
-  - Khi đưa lên vận hành thật (Production): Mô hình sai lệch nghiêm trọng và không sử dụng được.
-- **Ví dụ minh họa (Y tế):**
-  - *Mục tiêu:* Dự đoán bệnh nhân có mắc bệnh nặng hay không khi mới tiếp nhận.
-  - *Đặc trưng bị rò rỉ:* Cột `Ma_khoa_dieu_tri` hoặc `Ngay_nhap_vien`.
-  - *Nguyên nhân:* Dữ liệu này chỉ được ghi nhận **sau khi** bác sĩ đã chẩn đoán bệnh xong.
-- **Gợi ý bố cục & trực quan:** Sơ đồ trục thời gian (Timeline): Đánh dấu mốc **"Thời điểm dự đoán (Prediction Time)"**. Chỉ những dữ liệu sinh ra *trước* mốc này mới hợp lệ; dữ liệu *sau* mốc này là rò rỉ.
+  - Điểm đánh giá offline (Validation): Rất cao (98–99%).
+  - Khi triển khai thực tế (Production): Sai lệch nghiêm trọng, mô hình hỏng.
+- **Ví dụ thực tế (Y tế):**
+  - *Mục tiêu:* Dự đoán bệnh nhân có chuyển nặng hay không khi mới vào viện.
+  - *Đặc trưng bị rò rỉ:* `Mã_khoa_điều_trị` hoặc `Ngày_nhập_viện`.
+  - *Bản chất:* Những thông tin này chỉ sinh ra **sau khi** bác sĩ đã khám và có kết luận bệnh.
 
 ---
 
-## Slide 11: Các nguyên nhân gây Data Leakage phổ biến
-5 nguyên nhân thường gặp theo Chip Huyen:
-1. **Tiền xử lý trước khi chia tập (Splitting after Preprocessing):** `fit` Scaler, Imputer hoặc chọn đặc trưng trên toàn bộ dataset rồi mới chia Train/Test.
-2. **Rò rỉ theo thời gian (Time Leakage):** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian (vd: giá chứng khoán, doanh số), khiến mô hình dùng dữ liệu ngày mai để dự đoán ngày hôm qua.
-3. **Rò rỉ theo nhóm (Group Leakage):** Các mẫu của cùng một thực thể (cùng một người dùng, cùng một bệnh nhân) xuất hiện ở cả tập Train và tập Test.
-4. **Dữ liệu trùng lặp (Duplicates / Near-duplicates):** Bản ghi bị lặp lại nằm rải rác ở cả hai tập.
-5. **Biến đại diện cho nhãn (Target Proxy / Leaked Features from Generation):** Đặc trưng được tạo ra hoặc cập nhật từ chính kết quả của biến mục tiêu.
-- **Gợi ý bố cục & trực quan:** Trình bày 5 khối (cards) kèm một dòng minh họa trực quan cho từng lỗi (đặc biệt minh họa Random Split vs. Time-based Split).
+## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến
+1. **Tiền xử lý trước khi chia tập dữ liệu:** Chuẩn hóa hoặc điền khuyết trên toàn bộ dữ liệu trước khi gọi `train_test_split`.
+2. **Rò rỉ theo thời gian (Time Leakage):** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, lấy dữ liệu tương lai để dự đoán quá khứ.
+3. **Rò rỉ theo nhóm (Group Leakage):** Dữ liệu của cùng một đối tượng (cùng người dùng, cùng bệnh nhân) nằm ở cả Train và Test.
+4. **Dữ liệu trùng lặp (Duplicates):** Bản ghi trùng lặp xuất hiện ở cả hai tập do không lọc sạch từ đầu.
+5. **Biến đại diện cho nhãn (Target Proxy):** Đặc trưng phản ánh kết quả của nhãn mục tiêu sau khi sự kiện đã xảy ra.
 
 ---
 
-## Slide 12: Cách phát hiện và phòng chống Data Leakage
-- **Biện pháp phòng chống (Prevention):**
-  1. **Chia tập dữ liệu trước (Split First):** Luôn tách Train/Validation/Test trước khi thực hiện bất kỳ phép biến đổi thống kê nào.
-  2. **Đóng gói bằng `Pipeline`:** Sử dụng `sklearn.pipeline.Pipeline` để đảm bảo mỗi fold trong Cross-Validation chỉ `fit` trên phần dữ liệu huấn luyện.
-  3. **Chọn chiến lược chia tập đúng bản chất:**
-     - Dữ liệu thời gian $\rightarrow$ **Temporal Split** (huấn luyện trên quá khứ, kiểm thử trên tương lai).
-     - Dữ liệu theo nhóm/người dùng $\rightarrow$ **GroupKFold** (đảm bảo cùng một đối tượng chỉ nằm ở 1 tập).
-  4. **Kiểm tra mốc thời gian (Point-in-Time Correctness):** Xác minh nguồn thu thập của mọi cột trước khi đưa vào huấn luyện.
-- **Cách phát hiện (Detection):**
-  - Kiểm tra Feature Importance hoặc độ tương quan cao bất thường của một biến với nhãn.
-  - Nghi ngờ và kiểm tra lại nếu kết quả trên tập Validation cao bất hợp lý so với bài toán thực tế.
-  - Thử loại bỏ từng biến đáng ngờ (Ablation Study) để xem mức độ sụt giảm hiệu năng.
-- **Gợi ý bố cục & trực quan:** Hai cột song song: Bên trái là "Phòng chống (4 quy tắc kỹ thuật)", bên phải là "Phát hiện (3 dấu hiệu cảnh báo)", kèm đoạn code minh họa ngắn 3 dòng của `Pipeline`.
+## Slide 12: Phòng chống & Phát hiện Data Leakage
+- **Quy tắc phòng chống:**
+  - **Luôn chia tập dữ liệu trước:** Mọi thao tác thống kê chỉ được học trên tập Train.
+  - **Sử dụng Pipeline:** Dùng `sklearn.pipeline.Pipeline` để đóng gói biến đổi và mô hình.
+  - **Chia tập đúng bản chất:** Dùng **Temporal Split** cho dữ liệu thời gian; dùng **GroupKFold** cho dữ liệu theo nhóm đối tượng.
+  - **Kiểm tra tính sẵn có:** Xác minh mọi đặc trưng đều đã tồn tại tại thời điểm dự đoán.
+- **Dấu hiệu nhận biết:**
+  - Điểm đánh giá cao một cách bất thường so với thực tế bài toán.
+  - Có một đặc trưng chiếm độ quan trọng (Feature Importance) áp đảo các biến còn lại.
 
 ---
 
 ## Slide 13: Đánh giá đặc trưng – Feature Importance
-- **Tại sao cần đo Feature Importance?**
-  - Loại bỏ đặc trưng nhiễu hoặc dư thừa.
-  - Giảm kích thước mô hình, giảm độ trễ khi dự đoán (inference latency) và tiết kiệm chi phí lưu trữ.
-  - Tăng khả năng giải thích mô hình cho các bên liên quan.
-- **Các phương pháp phổ biến:**
-  1. **Built-in Tree Importance:** Tính toán nhanh dựa trên mức độ giảm tạp chất (Gini/Entropy), nhưng dễ thiên lệch về các biến có nhiều giá trị phân biệt (high cardinality).
-  2. **Permutation Importance:** Xáo trộn ngẫu nhiên giá trị một cột trên tập Validation và đo mức giảm hiệu năng. Khách quan, áp dụng được cho mọi loại mô hình.
-  3. **SHAP (SHapley Additive exPlanations):** Dựa trên lý thuyết trò chơi, định lượng đóng góp biên của từng đặc trưng ở cả cấp độ toàn cục (toàn bộ dữ liệu) và cục bộ (từng mẫu dự đoán cụ thể).
-- **Gợi ý bố cục & trực quan:** Minh họa một biểu đồ thanh ngang (Bar chart / SHAP summary plot) xếp hạng mức độ ảnh hưởng của 5 đặc trưng mẫu.
+- **Mục tiêu:** Loại bỏ đặc trưng thừa/nhiễu, giảm kích thước mô hình, tăng tốc độ dự đoán (giảm latency).
+- **3 phương pháp thông dụng:**
+  1. **Built-in Tree Importance:** Nhanh, nhưng dễ thiên vị các biến có nhiều giá trị phân biệt.
+  2. **Permutation Importance:** Xáo trộn ngẫu nhiên từng cột trên tập Validation để đo mức sụt giảm hiệu năng. Khách quan và dùng được cho mọi mô hình.
+  3. **SHAP (SHapley Additive exPlanations):** Dựa trên lý thuyết trò chơi, đo lường chính xác đóng góp của từng đặc trưng cho cả toàn bộ tập dữ liệu lẫn từng mẫu dự đoán riêng lẻ.
 
 ---
 
-## Slide 14: Khả năng tổng quát hóa (Feature Generalization)
-- **Mục tiêu:** Đặc trưng tốt không chỉ hoạt động tốt trên tập huấn luyện mà phải ổn định trên dữ liệu mới trong tương lai.
-- **Hai tiêu chí cốt lõi theo Chip Huyen:**
+## Slide 14: Tính tổng quát hóa (Feature Generalization)
+- **Yêu cầu:** Đặc trưng tốt phải giữ được hiệu quả ổn định trên dữ liệu mới trong tương lai.
+- **Hai tiêu chí cốt lõi:**
   1. **Feature Coverage (Độ bao phủ):**
-     - Tỷ lệ phần trăm mẫu dữ liệu có giá trị hợp lệ cho đặc trưng đó.
-     - Đặc trưng có độ bao phủ quá thấp (chỉ xuất hiện ở vài trường hợp cá biệt) dễ gây overfitting và ít đóng góp chung.
+     - Tỷ lệ phần trăm mẫu có giá trị cho đặc trưng đó.
+     - Đặc trưng chỉ xuất hiện ở dưới 1% mẫu dữ liệu dễ làm mô hình học vẹt (overfitting).
   2. **Distribution Stability (Độ ổn định phân phối):**
-     - Phân phối giá trị của đặc trưng cần ổn định theo thời gian.
-     - Tránh các đặc trưng bị trôi dạt phân phối (distribution drift) quá nhanh khi hành vi người dùng hoặc bối cảnh thay đổi.
-- **Sự đánh đổi (Trade-off):** Cần cân bằng giữa **độ đặc hiệu** (khớp sát dữ liệu hiện tại) và **tính tổng quát** (bền vững theo thời gian).
-- **Gợi ý bố cục & trực quan:** Hai biểu đồ minh họa nhỏ: Biểu đồ 1 so sánh đặc trưng độ bao phủ cao vs. độ bao phủ thấp; Biểu đồ 2 minh họa sự dịch chuyển phân phối (Distribution Drift) giữa thời điểm $t_1$ và $t_2$.
+     - Phân phối giá trị của đặc trưng không được thay đổi quá nhanh theo thời gian (tránh Data Drift).
+- **Nguyên tắc:** Cân bằng giữa độ chi tiết cho bài toán hiện tại và độ bền vững theo thời gian.
 
 ---
 
-## Slide 15: Mở rộng thực tế – Feature Store & MLOps
-- **Thách thức trong Production: Training-Serving Skew**
-  - Logic tính đặc trưng khi huấn luyện (Offline: Python/Pandas) khác với khi phục vụ trực tuyến (Online: Java/Go/SQL).
-  - Hệ quả: Sai lệch dữ liệu đầu vào giữa lúc học và lúc dự đoán thật.
-- **Giải pháp: Feature Store (Kho lưu trữ đặc trưng)**
-  - Công cụ tiêu biểu: **Feast, Hopsworks, Tecton**.
-  - **Lợi ích chính:**
-    1. Đồng nhất định nghĩa đặc trưng giữa **Offline Store** (training) và **Online Store** (inference độ trễ thấp).
-    2. Tái sử dụng đặc trưng giữa nhiều mô hình và nhiều nhóm kỹ sư khác nhau.
-    3. Hỗ trợ theo dõi phiên bản (versioning) và kiểm soát chất lượng đặc trưng.
-- **Gợi ý bố cục & trực quan:** Sơ đồ kiến trúc đơn giản: `Nguồn dữ liệu thô` $\rightarrow$ `Feature Engineering Pipeline` $\rightarrow$ `Feature Store (Offline & Online)` $\rightarrow$ `Training & Serving`.
+## Slide 15: Tổng kết – 3 Bài học cốt lõi
+1. **Hiểu bản chất dữ liệu là nền tảng:** Chọn kỹ thuật xử lý (Missing, Scaling, Encoding) dựa trên cơ chế sinh dữ liệu và mô hình sử dụng; kết hợp cả đặc trưng thủ công và đặc trưng tự học.
+2. **Kiểm soát chặt chẽ Data Leakage:** Luôn chia tập trước khi tiền xử lý, dùng Pipeline và chia theo thời gian hoặc nhóm thực thể.
+3. **Ưu tiên sự đơn giản và bền vững:** Đo lường độ quan trọng bằng Permutation Importance/SHAP để loại bỏ biến nhiễu, ưu tiên đặc trưng có độ bao phủ và tính ổn định cao.
 
 ---
 
-## Slide 16: Tổng kết & Bài học rút ra
-Ba nguyên tắc cốt lõi từ Chapter 5:
-1. **Dữ liệu và Ngữ cảnh là nền tảng:** Kết hợp hợp lý giữa *Engineered Features* và *Learned Features*; chọn kỹ thuật xử lý (Missing, Scaling, Encoding) phù hợp với bản chất dữ liệu và thuật toán.
-2. **Kiểm soát chặt chẽ Data Leakage:** Chia tập trước khi biến đổi, dùng `Pipeline`, áp dụng đúng *Temporal Split* hoặc *GroupKFold*, và kiểm tra tính khả dụng theo thời gian thực.
-3. **Đơn giản, Đo lường và Tổng quát hóa:** Bắt đầu từ các đặc trưng đơn giản, đánh giá đóng góp bằng *Permutation Importance* hoặc *SHAP*, và ưu tiên các đặc trưng có độ bao phủ và độ ổn định cao.
-- **Gợi ý bố cục & trực quan:** 3 thẻ tóm tắt lớn (3 Key Takeaways) rõ ràng, chữ to, dễ đọc từ xa.
-
----
-
-## Slide 17: Tài liệu tham khảo & Video minh họa
-- **Sách & Tài liệu chính quy:**
-  1. Chip Huyen (2022), *Designing Machine Learning Systems*, O'Reilly Media (Chapter 5, pp. 140–170).
+## Slide 16: Tài liệu tham khảo
+- **Sách giáo trình:**
+  1. Chip Huyen (2022), *Designing Machine Learning Systems*, O'Reilly Media (Chapter 5: Feature Engineering).
   2. Alice Zheng & Amanda Casari (2018), *Feature Engineering for Machine Learning*, O'Reilly Media.
   3. Max Kuhn & Kjell Johnson (2019), *Feature Engineering and Selection*, CRC Press.
-- **Khóa học & Video tham khảo:**
-  1. **Stanford CS 329S (Chip Huyen):** *Feature Engineering & Data Pipeline in ML Systems*.
-  2. **StatQuest with Josh Starmer:** *Data Leakage in Machine Learning*; *One-Hot Encoding and Categorical Data*.
-  3. **Made With ML (Goku Mohandas):** *Feature Engineering & Feature Store in Production*.
-  4. **Google Cloud Tech:** *Best Practices for ML: Feature Engineering at Scale*.
-- **Gợi ý bố cục & trực quan:** Chia 2 cột gọn gàng: Sách tham khảo bên trái, Khóa học/Video bên phải (có thể kèm mã QR dẫn tới repository GitHub chứa tài liệu và ghi chú chi tiết).
+- **Bài giảng & Video trực quan:**
+  1. Stanford CS 329S (Chip Huyen) – *Feature Engineering & Data Pipeline*.
+  2. StatQuest with Josh Starmer – *Data Leakage in Machine Learning*.
 
 ---
 
-## Slide 18: Cảm ơn & Thảo luận (Q&A)
-- **Lời cảm ơn:** Cảm ơn thầy/cô và các bạn đã lắng nghe!
-- **Gợi ý câu hỏi thảo luận mở:**
-  1. Khi nào nên ưu tiên *Target Encoding* thay cho *Hashing Trick* (và ngược lại)?
-  2. Trong bài toán gợi ý sản phẩm theo thời gian thực, làm thế nào để tránh *Data Leakage* khi tạo đặc trưng hành vi người dùng?
-- **Gợi ý bố cục & trực quan:** Thiết kế thoáng, nổi bật dòng chữ "Q&A – Trao đổi và Thảo luận" kèm thông tin liên hệ hoặc link repository tài liệu.
-
+## Slide 17: Cảm ơn & Q&A
+- **Lời cảm ơn:** Cảm ơn thầy/cô và các bạn đã theo dõi!
+- **Câu hỏi thảo luận:**
+  1. *Khi nào nên dùng Target Encoding thay vì Hashing Trick (và ngược lại)?*
+  2. *Trong dữ liệu chuỗi thời gian, vì sao Random Split hầu như luôn dẫn tới Data Leakage?*
+- **Liên hệ:** `[Email sinh viên]` | GitHub: `[Link repository]`
