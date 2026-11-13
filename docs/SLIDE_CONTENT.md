@@ -41,8 +41,7 @@
 - **Ví dụ (Dự đoán thời gian chuyến xe):**
   - *Dữ liệu thô:* Tọa độ `(10.77, 106.70)`, giờ `"17:45"`, thời tiết `"Mưa to"`.
   - *Đặc trưng tạo mới:* `khoang_cach = 8.5 km`, `is_rush_hour = 1`, `is_rain = 1`.
-  - $\rightarrow$ Mô hình dự đoán chính xác hơn so với việc để tự suy luận từ chuỗi thô.
-- **Thực tế:** Tại Facebook (2014), việc tìm ra đúng đặc trưng giúp cải thiện hiệu năng dự đoán click quảng cáo vượt trội hơn nhiều so với việc tinh chỉnh thuật toán.
+  - $\rightarrow$ Mô hình nắm bắt quy luật nhanh và dự đoán chính xác hơn nhiều so với dữ liệu thô.
 
 ---
 

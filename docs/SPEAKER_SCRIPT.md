@@ -41,7 +41,7 @@
 > 1. Mô hình chỉ tính toán được trên số, trong khi dữ liệu đời thực chứa đầy chữ, ngày giờ, ô trống hoặc thang đo lệch nhau.
 > 2. Mô hình không tự hiểu nghiệp vụ thực tế.
 >
-> Chẳng hạn khi dự đoán thời gian chuyến xe công nghệ: nếu chỉ đưa tọa độ thô và giờ `'17:45'`, mô hình rất khó học. Nhưng nếu mình tính ra `khoảng cách = 8.5 km`, gắn cờ `giờ cao điểm = 1`, `trời mưa = 1`, mô hình sẽ nắm bắt quy luật nhanh và chính xác hơn nhiều. Thực tế ở Facebook năm 2014 cũng chứng minh: việc bổ sung đúng đặc trưng mang lại hiệu quả vượt trội hơn hẳn so với việc mất nhiều tuần chỉ để tinh chỉnh thuật toán."
+> Chẳng hạn khi dự đoán thời gian chuyến xe công nghệ: nếu chỉ đưa tọa độ thô và giờ `'17:45'`, mô hình rất khó học. Nhưng nếu mình tính ra `khoảng cách = 8.5 km`, gắn cờ `giờ cao điểm = 1` và `trời mưa = 1`, mô hình sẽ nắm bắt quy luật nhanh và dự đoán chính xác hơn rất nhiều so với việc để mô hình tự mò mẫm từ dữ liệu thô."
 
 ---
 
