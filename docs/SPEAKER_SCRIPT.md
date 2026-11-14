@@ -10,18 +10,23 @@
 
 | Phần | Slides | Thời lượng dự kiến |
 | :--- | :---: | :---: |
-| Mở đầu & Đặt vấn đề | Slide 1 – 2 | 2.5 phút |
-| Phần 1: Learned Features vs. Engineered Features | Slide 3 | 1.5 phút |
-| Phần 2: Các kỹ thuật Feature Engineering cốt lõi | Slide 4 – 8 | 7.0 phút |
-| Phần 3: Data Leakage (Rò rỉ dữ liệu) | Slide 9 – 11 | 5.0 phút |
-| Phần 4: Engineering Good Features | Slide 12 – 13 | 3.0 phút |
-| Tổng kết, Tài liệu tham khảo & Q&A | Slide 14 – 16 | 1.5 phút (+ Q&A) |
-| **Tổng cộng** | **16 slides** | **~20.0 phút** |
+| Mở đầu & Đặt vấn đề | Slide 1 – 3 | 2.5 phút |
+| Phần 1: Learned Features vs. Engineered Features | Slide 4 | 1.5 phút |
+| Phần 2: Các kỹ thuật Feature Engineering cốt lõi | Slide 5 – 9 | 7.0 phút |
+| Phần 3: Data Leakage (Rò rỉ dữ liệu) | Slide 10 – 12 | 5.0 phút |
+| Phần 4: Engineering Good Features | Slide 13 – 14 | 3.0 phút |
+| Tổng kết, Tài liệu tham khảo & Q&A | Slide 15 – 17 | 1.5 phút (+ Q&A) |
+| **Tổng cộng** | **17 slides** | **~20.0 phút** |
 
 ---
 
-## Slide 1: Giới thiệu đề tài & Nội dung chính *(1.0 phút)*
-> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài hôm nay gồm 4 nội dung trọng tâm:
+## Slide 1: Giới thiệu đề tài *(0.5 phút)*
+> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày của mình sẽ tập trung trực tiếp vào các khái niệm và kỹ thuật cốt lõi nhất của chương trong khoảng 20 phút."
+
+---
+
+## Slide 2: Mục tiêu & Nội dung chính *(0.5 phút)*
+> "Bài hôm nay gồm 4 nội dung trọng tâm:
 > 1. Bản chất và tầm quan trọng của Feature Engineering.
 > 2. So sánh đặc trưng tự học và đặc trưng do con người thiết kế.
 > 3. Các kỹ thuật xử lý đặc trưng hay dùng nhất trong thực tế.
@@ -29,7 +34,7 @@
 
 ---
 
-## Slide 2: Đặt vấn đề – Tầm quan trọng của Feature Engineering *(1.5 phút)*
+## Slide 3: Đặt vấn đề – Tầm quan trọng của Feature Engineering *(1.5 phút)*
 > "Trước hết, **Feature Engineering là gì**? Đơn giản là quá trình biến đổi dữ liệu thô ban đầu thành các đặc trưng có ý nghĩa để mô hình học máy dễ học nhất.
 >
 > Tại sao bước này lại quyết định thành bại của mô hình? Vì nguyên lý cốt lõi: **Đầu vào là rác thì đầu ra cũng là rác**. Có hai lý do:
@@ -40,7 +45,7 @@
 
 ---
 
-## Slide 3: Learned Features vs. Engineered Features *(1.5 phút)*
+## Slide 4: Learned Features vs. Engineered Features *(1.5 phút)*
 > "Hiện nay Deep Learning có thể tự học đặc trưng, vậy việc tự thiết kế đặc trưng thủ công có còn cần thiết? Câu trả lời là **rất cần**, vì mỗi loại phục vụ một dạng dữ liệu riêng:
 >
 > - **Learned Features** do mạng nơ-ron tự trích xuất, cực kỳ mạnh trên dữ liệu phi cấu trúc như ảnh, video, văn bản; nhưng cần lượng dữ liệu khổng lồ, tốn GPU và là dạng hộp đen khó giải thích.
@@ -50,12 +55,12 @@
 
 ---
 
-## Slide 4: Tổng quan các kỹ thuật xử lý đặc trưng *(0.5 phút)*
+## Slide 5: Tổng quan các kỹ thuật xử lý đặc trưng *(0.5 phút)*
 > "Về mặt kỹ thuật, Chip Huyen đúc kết 6 phương pháp xử lý đặc trưng phổ biến nhất: xử lý dữ liệu khuyết thiếu, chuẩn hóa thang đo, rời rạc hóa, mã hóa biến phân loại, tổ hợp đặc trưng và nhúng vị trí. Bây giờ mình sẽ đi lần lượt qua bản chất và điểm cần lưu ý của từng phương pháp."
 
 ---
 
-## Slide 5: Xử lý dữ liệu khuyết thiếu *(1.5 phút)*
+## Slide 6: Xử lý dữ liệu khuyết thiếu *(1.5 phút)*
 > "Đầu tiên là xử lý dữ liệu khuyết thiếu. Khi thấy dữ liệu bị khuyết ô `NaN`, đừng vội xóa dòng hay điền bừa số trung bình. Ta cần xác định lý do dữ liệu bị thiếu:
 > - **MCAR:** Thiếu ngẫu nhiên hoàn toàn do lỗi kỹ thuật (như rớt mạng mất log).
 > - **MAR:** Thiếu phụ thuộc vào một cột khác đã biết (như phụ nữ ít điền cân nặng hơn nam).
@@ -65,7 +70,7 @@
 
 ---
 
-## Slide 6: Chuẩn hóa phạm vi dữ liệu (Scaling) *(1.5 phút)*
+## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling) *(1.5 phút)*
 > "Bước tiếp theo là Chuẩn hóa thang đo (Scaling), tức đưa các biến số về cùng một khoảng giá trị hợp lý. Trong một bảng, `Tuổi` từ 18–60 nhưng `Thu nhập` lên tới hàng chục triệu.
 >
 > - Các mô hình tính khoảng cách như KNN, SVM, hay mạng nơ-ron dùng Gradient Descent **bắt buộc phải chuẩn hóa** để thuật toán không bị biến số lớn chi phối và hội tụ nhanh hơn.
@@ -77,7 +82,7 @@
 
 ---
 
-## Slide 7: Rời rạc hóa & Mã hóa biến phân loại *(2.0 phút)*
+## Slide 8: Rời rạc hóa & Mã hóa biến phân loại *(2.0 phút)*
 > "Kỹ thuật thứ ba là **Rời rạc hóa (Binning)**, tức chia biến liên tục thành từng khoảng nhỏ, giúp các mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của ngoại lai.
 >
 > Tiếp theo là **Mã hóa biến phân loại (Encoding)** để chuyển dạng chữ thành số cho mô hình học:
@@ -88,7 +93,7 @@
 
 ---
 
-## Slide 8: Feature Crossing & Positional Embeddings *(1.5 phút)*
+## Slide 9: Feature Crossing & Positional Embeddings *(1.5 phút)*
 > "Hai kỹ thuật tiếp theo là:
 >
 > **Feature Crossing** là ghép hai hoặc nhiều biến lại thành biến mới, ví dụ ghép `Loại xe` với `Khung giờ`. Cách này giúp mô hình tuyến tính nắm bắt được tương tác phức tạp giữa các thuộc tính mà không cần chuyển sang mô hình phi tuyến nặng nề. Nhưng lưu ý: tránh ghép các cột có quá nhiều giá trị vì sẽ làm số chiều tăng vọt.
@@ -97,7 +102,7 @@
 
 ---
 
-## Slide 9: Data Leakage – Khái niệm & Tác hại *(1.5 phút)*
+## Slide 10: Data Leakage – Khái niệm & Tác hại *(1.5 phút)*
 > "Tiếp theo là vấn đề kỹ thuật nghiêm trọng nhất trong triển khai học máy: **Data Leakage** (Rò rỉ dữ liệu).
 >
 > Data Leakage xảy ra khi thông tin từ tương lai hoặc từ nhãn mục tiêu vô tình lọt vào dữ liệu huấn luyện, trong khi lúc triển khai thực tế thì mô hình không hề có thông tin đó. Hậu quả là điểm đánh giá lúc làm thử nghiệm rất cao, 98–99%, nhưng khi chạy thực tế thì mô hình sụp đổ hoàn toàn.
@@ -106,7 +111,7 @@
 
 ---
 
-## Slide 10: 5 Nguyên nhân gây Data Leakage phổ biến *(1.5 phút)*
+## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến *(1.5 phút)*
 > "5 nguyên nhân gây rò rỉ dữ liệu phổ biến nhất gồm:
 > 1. **Tiền xử lý trước khi chia tập:** Tính min, max, mean trên cả bảng dữ liệu rồi mới chia Train/Test.
 > 2. **Rò rỉ theo thời gian:** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình lấy dữ liệu ngày mai để đoán ngày hôm qua.
@@ -116,7 +121,7 @@
 
 ---
 
-## Slide 11: Phòng chống & Phát hiện Data Leakage *(1.5 phút)*
+## Slide 12: Phòng chống & Phát hiện Data Leakage *(1.5 phút)*
 > "Để phòng chống và nhận diện Data Leakage:
 >
 > - **Phòng ngừa:**
@@ -130,7 +135,7 @@
 
 ---
 
-## Slide 12: Đánh giá đặc trưng – Feature Importance *(1.5 phút)*
+## Slide 13: Đánh giá đặc trưng – Feature Importance *(1.5 phút)*
 > "Không phải cứ tạo thật nhiều đặc trưng là tốt. Đặc trưng thừa làm mô hình chậm, nặng và dễ quá khớp. Vì vậy ta cần đo **Feature Importance**:
 >
 > 1. **Built-in Tree Importance:** Đo mức giảm tạp chất trong cây quyết định, tính rất nhanh nhưng hay thiên lệch về cột có nhiều giá trị.
@@ -139,7 +144,7 @@
 
 ---
 
-## Slide 13: Tính tổng quát hóa (Feature Generalization) *(1.5 phút)*
+## Slide 14: Tính tổng quát hóa (Feature Generalization) *(1.5 phút)*
 > "Bên cạnh độ quan trọng, một đặc trưng tốt bắt buộc phải có **khả năng tổng quát hóa** ngoài thực tế:
 >
 > - **Feature Coverage (Độ bao phủ):** Đặc trưng xuất hiện trên bao nhiêu phần trăm mẫu dữ liệu. Nếu chỉ xuất hiện ở dưới 1% trường hợp cá biệt, mô hình rất dễ học vẹt.
@@ -149,7 +154,7 @@
 
 ---
 
-## Slide 14: Tổng kết – 3 Bài học cốt lõi *(1.0 phút)*
+## Slide 15: Tổng kết – 3 Bài học cốt lõi *(1.0 phút)*
 > "Đúc kết lại toàn bộ Chương 5, mình muốn nhấn mạnh 3 thông điệp chính:
 >
 > 1. **Hiểu dữ liệu là nền tảng:** Chọn kỹ thuật xử lý (missing, scaling, encoding) dựa trên cơ chế sinh dữ liệu và mô hình sử dụng; biết kết hợp cả đặc trưng thủ công và tự học.
@@ -158,12 +163,12 @@
 
 ---
 
-## Slide 15: Tài liệu tham khảo *(0.5 phút)*
+## Slide 16: Tài liệu tham khảo *(0.5 phút)*
 > "Đây là các tài liệu chính mình sử dụng để nghiên cứu đề tài này, gồm giáo trình của Chip Huyen, sách Feature Engineering của O'Reilly, cùng các bài giảng trực quan từ Stanford và StatQuest."
 
 ---
 
-## Slide 16: Cảm ơn & Q&A *(Hỏi đáp thảo luận)*
+## Slide 17: Cảm ơn & Q&A *(Hỏi đáp thảo luận)*
 > "Phần trình bày của mình về Chương 5: Feature Engineering đến đây là kết thúc. Cảm ơn thầy/cô và các bạn đã chú ý theo dõi. Rất mong nhận được câu hỏi và đóng góp ý kiến từ mọi người."
 
 ---
