@@ -1,24 +1,14 @@
 # Nội dung Slide Thuyết trình Seminar
 **Chủ đề:** Chapter 5: Feature Engineering  
 **Tài liệu chính:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly Media, 2022)  
-**Tổng số slide:** 17 slides  
-**Thời lượng dự kiến:** 20 phút (thuyết trình) + 5 phút (hỏi đáp)
+**Tổng số slide:** 16 slides  
+**Thời lượng dự kiến:** ~20 phút (thuyết trình) + 5 phút (hỏi đáp)
 
 > Xem lời thoại tương ứng từng slide tại: [SPEAKER_SCRIPT.md](SPEAKER_SCRIPT.md)
 
 ---
 
-## Slide 1: Trang bìa
-- **Tiêu đề chính:** Chapter 5: Feature Engineering
-- **Phụ đề:** *Designing Machine Learning Systems* – Chip Huyen
-- **Môn học:** Seminar Học Máy (Machine Learning)
-- **Giảng viên hướng dẫn:** `[Tên giảng viên]`
-- **Người thực hiện:** `[Họ và tên sinh viên]`
-- **Gợi ý trực quan:** Bố cục tối giản, sơ đồ dòng chảy dữ liệu: `Raw Data` $\rightarrow$ `Feature Engineering` $\rightarrow$ `Model`.
-
----
-
-## Slide 2: Mục tiêu & Nội dung chính
+## Slide 1: Mục tiêu & Nội dung chính
 1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
 2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
 3. **Các kỹ thuật Feature Engineering cốt lõi:**
@@ -32,7 +22,7 @@
 
 ---
 
-## Slide 3: Đặt vấn đề – Tầm quan trọng của Feature Engineering
+## Slide 2: Đặt vấn đề – Tầm quan trọng của Feature Engineering
 - **Định nghĩa:** Quá trình biến đổi dữ liệu thô thành các đặc trưng giúp mô hình học quy luật hiệu quả nhất.
 - **Nguyên lý cốt lõi:** *"Garbage In, Garbage Out"* – Dữ liệu đầu vào kém thì mô hình không thể cho kết quả tốt.
 - **Hai lý do bắt buộc phải làm Feature Engineering:**
@@ -45,7 +35,7 @@
 
 ---
 
-## Slide 4: Learned Features vs. Engineered Features
+## Slide 3: Learned Features vs. Engineered Features
 - **Vấn đề:** Deep Learning tự học được đặc trưng, vậy có cần tạo đặc trưng thủ công?
 
 | Tiêu chí | Engineered Features (Thủ công) | Learned Features (Mô hình tự học) |
@@ -59,7 +49,7 @@
 
 ---
 
-## Slide 5: Tổng quan các kỹ thuật xử lý đặc trưng
+## Slide 4: Tổng quan các kỹ thuật xử lý đặc trưng
 Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 1. **Handling Missing Values:** Nhận diện cơ chế và xử lý dữ liệu bị khuyết.
 2. **Scaling & Normalization:** Đưa các biến số về cùng thang đo.
@@ -71,7 +61,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 6: Xử lý dữ liệu khuyết thiếu (Missing Values)
+## Slide 5: Xử lý dữ liệu khuyết thiếu (Missing Values)
 - **1. Phân biệt 3 cơ chế thiếu:**
   - **MCAR (Thiếu hoàn toàn ngẫu nhiên):** Do lỗi khách quan, không phụ thuộc biến nào (vd: đứt mạng rớt vài dòng log).
   - **MAR (Thiếu ngẫu nhiên theo biến khác):** Phụ thuộc biến đã biết (vd: phụ nữ ít khai cân nặng hơn nam).
@@ -83,7 +73,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling)
+## Slide 6: Chuẩn hóa phạm vi dữ liệu (Scaling)
 - **Lý do cần Scaling:** Tránh trường hợp biến số lớn (Thu nhập: hàng chục triệu) lấn át biến số nhỏ (Tuổi: 18–60).
 - **Tác động theo thuật toán:**
   - *KNN, SVM, Gradient Descent:* **Bắt buộc**, giúp thuật toán tính khoảng cách chính xác và hội tụ nhanh.
@@ -96,7 +86,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 8: Rời rạc hóa & Mã hóa biến phân loại
+## Slide 7: Rời rạc hóa & Mã hóa biến phân loại
 - **1. Discretization (Binning):**
   - Chia biến liên tục thành các khoảng (Equal-width, Quantile, hoặc theo ngưỡng nghiệp vụ).
   - Giúp mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của nhiễu.
@@ -108,7 +98,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 9: Feature Crossing & Positional Embeddings
+## Slide 8: Feature Crossing & Positional Embeddings
 - **1. Feature Crossing (Tổ hợp chéo đặc trưng):**
   - Ghép 2 hoặc nhiều biến thành đặc trưng mới (vd: `Loại_xe` $\times$ `Khung_giờ`).
   - Giúp các mô hình tuyến tính nắm bắt tương tác phi tuyến phức tạp.
@@ -120,7 +110,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 10: Data Leakage – Khái niệm & Tác hại
+## Slide 9: Data Leakage – Khái niệm & Tác hại
 - **Định nghĩa:** Thông tin từ tập kiểm thử hoặc từ tương lai vô tình lọt vào quá trình huấn luyện, nhưng không có sẵn tại thời điểm dự đoán thật.
 - **Hệ quả thực tế:**
   - Điểm đánh giá offline (Validation): Rất cao (98–99%).
@@ -132,7 +122,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến
+## Slide 10: 5 Nguyên nhân gây Data Leakage phổ biến
 1. **Tiền xử lý trước khi chia tập dữ liệu:** Chuẩn hóa hoặc điền khuyết trên toàn bộ dữ liệu trước khi gọi `train_test_split`.
 2. **Rò rỉ theo thời gian (Time Leakage):** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, lấy dữ liệu tương lai để dự đoán quá khứ.
 3. **Rò rỉ theo nhóm (Group Leakage):** Dữ liệu của cùng một đối tượng (cùng người dùng, cùng bệnh nhân) nằm ở cả Train và Test.
@@ -141,7 +131,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 12: Phòng chống & Phát hiện Data Leakage
+## Slide 11: Phòng chống & Phát hiện Data Leakage
 - **Quy tắc phòng chống:**
   - **Luôn chia tập dữ liệu trước:** Mọi phép biến đổi thống kê chỉ được học trên tập Train.
   - **Sử dụng Pipeline:** Dùng `sklearn.pipeline.Pipeline` để đóng gói biến đổi và mô hình.
@@ -153,7 +143,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 13: Đánh giá đặc trưng – Feature Importance
+## Slide 12: Đánh giá đặc trưng – Feature Importance
 - **Mục tiêu:** Loại bỏ đặc trưng thừa/nhiễu, giảm kích thước mô hình, tăng tốc độ dự đoán (giảm latency).
 - **3 phương pháp thông dụng:**
   1. **Built-in Tree Importance:** Nhanh, nhưng dễ thiên vị các biến có nhiều giá trị phân biệt.
@@ -162,7 +152,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 14: Tính tổng quát hóa (Feature Generalization)
+## Slide 13: Tính tổng quát hóa (Feature Generalization)
 - **Yêu cầu:** Đặc trưng tốt phải giữ được hiệu quả ổn định trên dữ liệu mới trong tương lai.
 - **Hai tiêu chí cốt lõi:**
   1. **Feature Coverage (Độ bao phủ):**
@@ -174,14 +164,14 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 15: Tổng kết – 3 Bài học cốt lõi
+## Slide 14: Tổng kết – 3 Bài học cốt lõi
 1. **Hiểu bản chất dữ liệu là nền tảng:** Chọn kỹ thuật xử lý (Missing, Scaling, Encoding) dựa trên cơ chế sinh dữ liệu và mô hình sử dụng; kết hợp cả đặc trưng thủ công và đặc trưng tự học.
 2. **Kiểm soát chặt chẽ Data Leakage:** Luôn chia tập trước khi tiền xử lý, dùng Pipeline và chia theo thời gian hoặc nhóm thực thể.
 3. **Ưu tiên sự đơn giản và bền vững:** Đo lường độ quan trọng bằng Permutation Importance/SHAP để loại bỏ biến nhiễu, ưu tiên đặc trưng có độ bao phủ và tính ổn định cao.
 
 ---
 
-## Slide 16: Tài liệu tham khảo
+## Slide 15: Tài liệu tham khảo
 - **Sách giáo trình:**
   1. Chip Huyen (2022), *Designing Machine Learning Systems*, O'Reilly Media (Chapter 5: Feature Engineering).
   2. Alice Zheng & Amanda Casari (2018), *Feature Engineering for Machine Learning*, O'Reilly Media.
@@ -192,7 +182,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 
 ---
 
-## Slide 17: Cảm ơn & Q&A
+## Slide 16: Cảm ơn & Q&A
 - **Lời cảm ơn:** Cảm ơn thầy/cô và các bạn đã theo dõi!
 - **Câu hỏi thảo luận:**
   1. *Khi nào nên dùng Target Encoding thay vì Hashing Trick (và ngược lại)?*
