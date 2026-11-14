@@ -194,4 +194,3 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 - **Câu hỏi thảo luận:**
   1. *Khi nào nên dùng Target Encoding thay vì Hashing Trick (và ngược lại)?*
   2. *Trong dữ liệu chuỗi thời gian, vì sao Random Split hầu như luôn dẫn tới Data Leakage?*
-- **Liên hệ:** `[Email sinh viên]` | GitHub: `[Link repository]`

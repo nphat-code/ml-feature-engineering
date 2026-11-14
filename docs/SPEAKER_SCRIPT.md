@@ -26,11 +26,12 @@
 ---
 
 ## Slide 2: Mục tiêu & Nội dung chính *(0.5 phút)*
-> "Bài hôm nay gồm 4 nội dung trọng tâm:
+> "Bài hôm nay gồm 5 nội dung trọng tâm:
 > 1. Bản chất và tầm quan trọng của Feature Engineering.
 > 2. So sánh đặc trưng tự học và đặc trưng do con người thiết kế.
 > 3. Các kỹ thuật xử lý đặc trưng hay dùng nhất trong thực tế.
-> 4. Hiểm họa rò rỉ dữ liệu (Data Leakage) và cách nhận biết một đặc trưng tốt."
+> 4. Hiểm họa rò rỉ dữ liệu (Data Leakage): nguyên nhân, cách phát hiện và phòng ngừa.
+> 5. Cách đánh giá và nhận biết một đặc trưng tốt."
 
 ---
 
