@@ -21,7 +21,7 @@
 ---
 
 ## Slide 1: Giới thiệu đề tài *(0.5 phút)*
-> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày của mình sẽ tập trung trực tiếp vào các khái niệm và kỹ thuật cốt lõi nhất của chương trong khoảng 20 phút."
+> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày sẽ tập trung trực tiếp vào các khái niệm và kỹ thuật cốt lõi nhất của chương."
 
 ---
 
