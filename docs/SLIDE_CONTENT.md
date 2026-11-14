@@ -9,7 +9,8 @@
 ---
 
 ## Slide 1: Giới thiệu đề tài
-- **Đề tài:** **Chapter 5: Feature Engineering**
+- **Đề tài:** **Feature Engineering** *(Chapter 5)*
+- **Phụ đề:** Kỹ thuật thiết kế và xử lý đặc trưng trong hệ thống học máy
 - **Tài liệu gốc:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly Media, 2022)
 - **Gợi ý trực quan:** Bố cục tối giản tập trung vào tên đề tài, kèm sơ đồ dòng chảy dữ liệu: `Raw Data` $\rightarrow$ `Feature Engineering` $\rightarrow$ `Model`.
 

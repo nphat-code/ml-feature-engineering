@@ -21,7 +21,7 @@
 ---
 
 ## Slide 1: Giới thiệu đề tài *(0.5 phút)*
-> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài trình bày sẽ tập trung trực tiếp vào các khái niệm và kỹ thuật cốt lõi nhất của chương."
+> "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về chủ đề **Feature Engineering**, dựa trên Chương 5 trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Trong một hệ thống học máy, đây là cầu nối biến dữ liệu thô thành đầu vào có ý nghĩa cho mô hình, qua đó ảnh hưởng trực tiếp đến độ chính xác và tính ổn định khi vận hành thực tế."
 
 ---
 
