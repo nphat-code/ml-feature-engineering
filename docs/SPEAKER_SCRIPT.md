@@ -26,141 +26,102 @@
 ---
 
 ## Slide 2: Mục tiêu & Nội dung chính *(0.5 phút)*
-> "Để bắt đầu, nội dung bài trình bày hôm nay gồm 5 phần trọng tâm:
-> 1. Bản chất và tầm quan trọng của Feature Engineering.
-> 2. So sánh đặc trưng tự học và đặc trưng do con người thiết kế.
-> 3. Các kỹ thuật xử lý đặc trưng hay dùng nhất trong thực tế.
-> 4. Vấn đề rò rỉ dữ liệu (Data Leakage): nguyên nhân, cách phát hiện và phòng ngừa.
-> 5. Cách đánh giá và nhận biết một đặc trưng tốt."
+> "Để bắt đầu, nội dung bài trình bày hôm nay sẽ đi qua năm phần trọng tâm. Trước tiên là bản chất và tầm quan trọng của Feature Engineering, tiếp theo là so sánh giữa đặc trưng tự học và đặc trưng do con người thiết kế. Sau đó, chúng ta sẽ điểm qua các kỹ thuật xử lý đặc trưng thường dùng nhất trong thực tế, phân tích vấn đề rò rỉ dữ liệu (Data Leakage) cùng cách phòng ngừa, và cuối cùng là cách đánh giá để nhận biết một đặc trưng tốt."
 
 ---
 
 ## Slide 3: Đặt vấn đề – Tầm quan trọng của Feature Engineering *(1.5 phút)*
-> "Trước hết, **Feature Engineering là gì**? Đơn giản là quá trình biến đổi dữ liệu thô ban đầu thành các đặc trưng có ý nghĩa để mô hình học máy dễ học nhất.
+> "Trước hết, **Feature Engineering là gì**? Hiểu một cách đơn giản, đây là quá trình biến đổi dữ liệu thô ban đầu thành các đặc trưng có ý nghĩa để mô hình học máy có thể học quy luật hiệu quả nhất.
 >
-> Tại sao bước này lại quyết định thành bại của mô hình? Vì nguyên lý cốt lõi: **Đầu vào là rác thì đầu ra cũng là rác**. Có hai lý do:
-> 1. Mô hình chỉ tính toán được trên số, trong khi dữ liệu đời thực chứa đầy chữ, ngày giờ, ô trống hoặc thang đo lệch nhau.
-> 2. Mô hình không tự hiểu nghiệp vụ thực tế.
+> Bước này quyết định rất lớn đến chất lượng mô hình vì nguyên lý cốt lõi: đầu vào là rác thì đầu ra cũng là rác. Điều này xuất phát từ hai lý do thực tế. Thứ nhất, mô hình học máy chỉ tính toán được trên dữ liệu dạng số, trong khi dữ liệu đời thực lại chứa nhiều văn bản, ngày giờ, ô trống hoặc các cột có thang đo chênh lệch nhau. Thứ hai, mô hình không tự hiểu được bối cảnh nghiệp vụ nếu chúng ta không diễn giải giúp nó.
 >
-> Chẳng hạn khi dự đoán thời gian chuyến xe công nghệ: nếu chỉ đưa tọa độ thô và giờ `'17:45'`, mô hình rất khó học. Nhưng nếu mình tính ra `khoảng cách = 8.5 km`, gắn cờ `giờ cao điểm = 1` và `trời mưa = 1`, mô hình sẽ nắm bắt quy luật nhanh và dự đoán chính xác hơn rất nhiều so với việc để mô hình tự tìm quy luật từ dữ liệu thô."
+> Chẳng hạn trong bài toán dự đoán thời gian chuyến xe công nghệ, nếu chỉ đưa vào tọa độ thô và mốc giờ `'17:45'`, mô hình sẽ rất khó học. Nhưng nếu chúng ta tính sẵn `khoảng cách = 8.5 km`, đồng thời gắn cờ `giờ cao điểm = 1` và `trời mưa = 1`, mô hình sẽ nắm bắt quy luật nhanh và dự đoán chính xác hơn nhiều so với việc tự tìm quy luật từ dữ liệu thô."
 
 ---
 
 ## Slide 4: Learned Features vs. Engineered Features *(1.5 phút)*
-> "Hiện nay Deep Learning có thể tự học đặc trưng, vậy việc tự thiết kế đặc trưng thủ công có còn cần thiết? Câu trả lời là **rất cần**, vì mỗi loại phục vụ một dạng dữ liệu riêng:
+> "Một câu hỏi thường gặp là hiện nay Deep Learning đã có thể tự học đặc trưng, vậy việc tự thiết kế đặc trưng thủ công có còn cần thiết nữa không? Câu trả lời là rất cần, bởi mỗi cách tiếp cận phục vụ một loại dữ liệu khác nhau.
 >
-> - **Learned Features** do mạng nơ-ron tự trích xuất, rất hiệu quả trên dữ liệu phi cấu trúc như ảnh, video, văn bản; nhưng cần lượng dữ liệu lớn, tốn GPU và là dạng hộp đen khó giải thích.
-> - **Engineered Features** do con người thiết kế dựa trên hiểu biết nghiệp vụ, lại là lựa chọn hàng đầu cho dữ liệu dạng bảng – loại dữ liệu phổ biến nhất trong tài chính, ngân hàng và bán lẻ. Nó nhẹ, cần ít dữ liệu hơn và giải thích được rõ ràng.
+> Với **Learned Features**, mạng nơ-ron tự trích xuất đặc trưng nên rất hiệu quả trên dữ liệu phi cấu trúc như ảnh, video hay văn bản; tuy nhiên cách này đòi hỏi lượng dữ liệu lớn, chi phí GPU cao và kết quả là dạng hộp đen khó giải thích. Ngược lại, **Engineered Features** do con người thiết kế dựa trên hiểu biết nghiệp vụ lại là lựa chọn phù hợp cho dữ liệu dạng bảng — loại dữ liệu phổ biến trong tài chính, ngân hàng và bán lẻ — vì nó nhẹ, cần ít dữ liệu hơn và giải thích được rõ ràng.
 >
-> Trong thực tế, các hệ thống lớn thường kết hợp cả hai. Chẳng hạn như YouTube, để quyết định video nào được hiện lên đầu trang chủ cho người dùng xem: họ vừa dùng vector nhúng tự học để hiểu nội dung video, vừa dùng các đặc trưng thủ công như lịch sử click gần đây để sắp xếp thứ tự hiển thị."
+> Trong thực tế, các hệ thống lớn thường kết hợp cả hai hướng này. Chẳng hạn tại YouTube, để quyết định video nào được ưu tiên hiển thị trên trang chủ, hệ thống vừa dùng vector nhúng tự học để hiểu nội dung video, vừa dùng các đặc trưng thủ công như lịch sử click gần đây của người dùng để sắp xếp thứ tự."
 
 ---
 
 ## Slide 5: Tổng quan các kỹ thuật xử lý đặc trưng *(0.5 phút)*
-> "Về mặt kỹ thuật, Chip Huyen đúc kết 6 phương pháp xử lý đặc trưng phổ biến nhất: xử lý dữ liệu khuyết thiếu, chuẩn hóa thang đo, rời rạc hóa, mã hóa biến phân loại, tổ hợp đặc trưng và nhúng vị trí. Bây giờ mình sẽ đi lần lượt qua bản chất và điểm cần lưu ý của từng phương pháp."
+> "Về mặt kỹ thuật, Chương 5 đúc kết sáu nhóm phương pháp xử lý đặc trưng cơ bản và phổ biến nhất, gồm: xử lý dữ liệu khuyết thiếu, chuẩn hóa thang đo, rời rạc hóa, mã hóa biến phân loại, tổ hợp đặc trưng và nhúng vị trí. Bây giờ chúng ta sẽ lần lượt đi qua bản chất và điểm cần lưu ý của từng kỹ thuật."
 
 ---
 
 ## Slide 6: Xử lý dữ liệu khuyết thiếu *(1.5 phút)*
-> "Đầu tiên là xử lý dữ liệu khuyết thiếu. Khi thấy dữ liệu bị khuyết ô `NaN`, đừng vội xóa dòng hay điền tùy tiện giá trị trung bình. Ta cần xác định lý do dữ liệu bị thiếu:
-> - **MCAR:** Thiếu ngẫu nhiên hoàn toàn do lỗi kỹ thuật (như rớt mạng mất log).
-> - **MAR:** Thiếu phụ thuộc vào một cột khác đã biết (như phụ nữ ít điền cân nặng hơn nam).
-> - **MNAR:** Thiếu vì chính giá trị đó (như người thu nhập rất cao từ chối khai báo lương).
+> "Kỹ thuật đầu tiên là xử lý dữ liệu khuyết thiếu. Khi thấy dữ liệu có các ô `NaN`, chúng ta không nên vội xóa dòng hay điền tùy tiện giá trị trung bình, mà cần xác định trước lý do dữ liệu bị thiếu. Thông thường có ba cơ chế: **MCAR** là thiếu ngẫu nhiên hoàn toàn do lỗi kỹ thuật như rớt mạng mất log; **MAR** là thiếu phụ thuộc vào một cột khác đã biết, chẳng hạn phụ nữ ít khai báo cân nặng hơn nam; và **MNAR** là thiếu do chính giá trị của cột đó, ví dụ người có thu nhập rất cao thường từ chối khai báo lương.
 >
-> Với MNAR, nếu xóa dòng đi, ta sẽ làm mất hẳn nhóm đối tượng đặc biệt này. Nếu chỉ điền số trung bình thì làm sai lệch thông tin. Vì vậy, ngoài việc điền Median hoặc KNN, một kỹ thuật rất hiệu quả là tạo thêm cột cờ **Missing Indicator**, ví dụ `income_is_missing = 1`. Cột cờ này biến chính trạng thái không khai báo thành một tín hiệu hữu ích cho mô hình học."
+> Với trường hợp MNAR, nếu xóa dòng thì mô hình sẽ mất hẳn nhóm đối tượng đặc biệt này, còn nếu chỉ điền giá trị trung bình thì lại làm sai lệch thông tin. Vì vậy, bên cạnh việc điền bằng Median hoặc mô hình như KNN, một giải pháp rất hiệu quả là tạo thêm cột cờ **Missing Indicator**, ví dụ `income_is_missing = 1`, để biến chính trạng thái không khai báo thành một tín hiệu hữu ích cho mô hình."
 
 ---
 
 ## Slide 7: Chuẩn hóa phạm vi dữ liệu (Scaling) *(1.5 phút)*
-> "Bước tiếp theo là Chuẩn hóa thang đo (Scaling), tức đưa các biến số về cùng một khoảng giá trị hợp lý. Trong một bảng, `Tuổi` từ 18–60 nhưng `Thu nhập` lên tới hàng chục triệu.
+> "Bước tiếp theo là chuẩn hóa phạm vi dữ liệu, hay Scaling, nhằm đưa các biến số về cùng một khoảng giá trị hợp lý. Trong cùng một bảng dữ liệu, cột `Tuổi` thường chỉ nằm từ 18 đến 60, trong khi `Thu nhập` có thể lên tới hàng chục triệu.
 >
-> - Các mô hình tính khoảng cách như KNN, SVM, hay mạng nơ-ron dùng Gradient Descent **bắt buộc phải chuẩn hóa** để thuật toán không bị biến số lớn chi phối và hội tụ nhanh hơn.
-> - Ngược lại, các mô hình dạng cây như Random Forest hay XGBoost **không cần bước này**, vì chúng chỉ phân nhánh theo thứ tự lớn nhỏ.
+> Với các thuật toán dựa trên khoảng cách như KNN, SVM hay các mô hình tối ưu bằng Gradient Descent như mạng nơ-ron, bước chuẩn hóa là bắt buộc để thuật toán không bị biến có giá trị lớn chi phối và giúp quá trình hội tụ diễn ra nhanh hơn. Ngược lại, các mô hình dạng cây như Random Forest hay XGBoost lại không cần bước này vì chúng chỉ phân nhánh dựa trên thứ tự lớn nhỏ.
 >
-> Ba cách hay dùng: **Min-Max Scaling** ép về `[0, 1]`, nhưng nhạy với ngoại lai; **Standardization (Z-score)** đưa về trung bình 0, độ lệch chuẩn 1, ổn định hơn; và **Log Transformation** để nén dữ liệu phân phối lệch đuôi dài như doanh thu.
->
-> Nguyên tắc bắt buộc: **Chỉ fit scaler trên tập Train**, sau đó áp nguyên bộ tham số đó sang tập Test để tránh rò rỉ dữ liệu."
+> Ba cách chuẩn hóa thường dùng nhất gồm **Min-Max Scaling** để đưa dữ liệu về đoạn `[0, 1]` nhưng khá nhạy với ngoại lai; **Standardization (Z-score)** để đưa về trung bình 0 và độ lệch chuẩn 1 giúp ổn định hơn; và **Log Transformation** để nén khoảng cách cho dữ liệu có phân phối lệch đuôi dài như doanh thu. Dù chọn cách nào, nguyên tắc bắt buộc là chỉ `fit` bộ chuẩn hóa trên tập Train, rồi dùng chính tham số đó để biến đổi sang tập Test nhằm tránh rò rỉ dữ liệu."
 
 ---
 
 ## Slide 8: Rời rạc hóa & Mã hóa biến phân loại *(2.0 phút)*
-> "Kỹ thuật thứ ba là **Rời rạc hóa (Binning)**, tức chia biến liên tục thành từng khoảng nhỏ, giúp các mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt ảnh hưởng của ngoại lai.
+> "Kỹ thuật thứ ba là **rời rạc hóa (Binning)**, tức chia một biến liên tục thành từng khoảng nhỏ để giúp các mô hình tuyến tính học được quan hệ phi tuyến và giảm bớt tác động của giá trị ngoại lai.
 >
-> Tiếp theo là **Mã hóa biến phân loại (Encoding)** để chuyển dạng chữ thành số cho mô hình học:
-> - **Ordinal Encoding:** Gán số thứ tự $0, 1, 2...$, chỉ dùng khi biến thực sự có thứ tự tự nhiên (*Thấp, Trung bình, Cao*).
-> - **One-Hot Encoding:** Tạo cột nhị phân `0/1`, tốt khi có ít danh mục. Nếu có hàng nghìn mã sản phẩm, One-Hot sẽ làm bùng nổ số chiều.
-> - **Target Encoding:** Thay danh mục bằng giá trị trung bình của nhãn mục tiêu, ví dụ mã quận `'Q1'` được thay bằng tỷ lệ khách hàng rời bỏ trung bình tại quận đó. Cách này rất hiệu quả cho dữ liệu bảng nhiều danh mục, nhưng nếu một danh mục chỉ xuất hiện 1–2 lần thì giá trị trung bình sẽ thiếu ổn định và dễ gây quá khớp; vì vậy ta cần kỹ thuật làm mượt (smoothing) kết hợp với trung bình chung của toàn tập, và chỉ tính trong Cross-Validation.
-> - **Hashing Trick:** Dùng hàm băm nén toàn bộ danh mục vào một vector kích thước cố định. Cách này tiết kiệm bộ nhớ và xử lý được cả những danh mục mới xuất hiện lúc chạy thực tế, đổi lại có thể xảy ra va chạm băm (hash collision) khi hai danh mục khác nhau cùng ánh xạ vào một vị trí."
+> Song song đó, để mô hình hiểu được các biến dạng chữ, ta cần **mã hóa biến phân loại (Encoding)**. Nếu biến thực sự có thứ tự tự nhiên như *Thấp, Trung bình, Cao*, ta dùng **Ordinal Encoding** để gán các số `0, 1, 2`. Nếu biến không có thứ tự và số lượng danh mục ít, **One-Hot Encoding** sẽ tạo các cột nhị phân `0/1` rất an toàn, nhưng sẽ gây bùng nổ số chiều nếu có hàng nghìn mã sản phẩm.
+>
+> Khi số lượng danh mục lớn, hai lựa chọn phổ biến hơn là Target Encoding và Hashing Trick. **Target Encoding** thay từng danh mục bằng giá trị trung bình của nhãn mục tiêu, ví dụ thay mã quận `'Q1'` bằng tỷ lệ khách hàng rời bỏ trung bình tại quận đó. Tuy nhiên, nếu một danh mục chỉ xuất hiện một vài lần thì trung bình này rất dễ gây quá khớp, nên ta cần kết hợp thêm kỹ thuật làm mượt (smoothing) với trung bình chung của toàn tập và chỉ tính trong Cross-Validation. Trong khi đó, **Hashing Trick** dùng hàm băm để nén toàn bộ danh mục vào một vector có kích thước cố định; cách này vừa tiết kiệm bộ nhớ vừa xử lý được các danh mục mới phát sinh lúc vận hành, dù phải chấp nhận khả năng xảy ra va chạm băm khi hai danh mục khác nhau cùng rơi vào một vị trí."
 
 ---
 
 ## Slide 9: Feature Crossing & Positional Embeddings *(1.5 phút)*
-> "Hai kỹ thuật tiếp theo là:
+> "Hai kỹ thuật tạo đặc trưng tiếp theo là Feature Crossing và Positional Embeddings. **Feature Crossing** là việc ghép hai hoặc nhiều biến lại thành một đặc trưng mới, chẳng hạn kết hợp `Loại xe` với `Khung giờ`. Cách làm này giúp các mô hình tuyến tính nắm bắt được tương tác phức tạp giữa các thuộc tính mà chưa cần chuyển sang mô hình phi tuyến nặng nề; tuy nhiên cần tránh ghép những cột có quá nhiều danh mục để không làm số chiều tăng vọt.
 >
-> **Feature Crossing** là ghép hai hoặc nhiều biến lại thành biến mới, ví dụ ghép `Loại xe` với `Khung giờ`. Cách này giúp mô hình tuyến tính nắm bắt được tương tác phức tạp giữa các thuộc tính mà không cần chuyển sang mô hình phi tuyến nặng nề. Nhưng lưu ý: tránh ghép các cột có quá nhiều giá trị vì sẽ làm số chiều tăng vọt.
->
-> Còn **Positional Embeddings** dành cho dữ liệu dạng chuỗi như chữ viết hay chuỗi hành vi người dùng. Các mô hình như Transformer xử lý song song nên không tự biết từ nào đứng trước, từ nào đứng sau. Ta cộng thêm một vector mã hóa vị trí vào đặc trưng đầu vào để mô hình nắm bắt được thứ tự tuần tự của chuỗi."
+> Còn **Positional Embeddings** được dùng cho dữ liệu dạng chuỗi như văn bản hoặc chuỗi hành vi người dùng. Vì các kiến trúc như Transformer xử lý các phần tử song song nên tự thân mô hình không phân biệt được từ nào đứng trước, từ nào đứng sau. Do đó, ta cộng thêm một vector mã hóa vị trí vào đặc trưng đầu vào để mô hình nắm bắt được thứ tự tuần tự của chuỗi."
 
 ---
 
 ## Slide 10: Data Leakage – Khái niệm & Tác hại *(1.5 phút)*
-> "Tiếp theo là vấn đề kỹ thuật nghiêm trọng nhất trong triển khai học máy: **Data Leakage** (Rò rỉ dữ liệu).
+> "Sau khi nắm các kỹ thuật tạo và biến đổi đặc trưng, chúng ta cần đặc biệt chú ý đến vấn đề kỹ thuật nghiêm trọng nhất khi triển khai học máy, đó là **Data Leakage**, tức rò rỉ dữ liệu.
 >
-> Data Leakage xảy ra khi thông tin từ tương lai hoặc từ nhãn mục tiêu vô tình lọt vào dữ liệu huấn luyện, trong khi lúc triển khai thực tế thì mô hình không hề có thông tin đó. Hậu quả là điểm đánh giá lúc thử nghiệm rất cao, 98–99%, nhưng khi chạy thực tế thì hiệu năng mô hình suy giảm nghiêm trọng.
+> Data Leakage xảy ra khi thông tin từ tương lai hoặc từ chính nhãn mục tiêu vô tình lọt vào dữ liệu huấn luyện, trong khi lúc triển khai thực tế thì mô hình không hề có thông tin đó. Hệ quả là kết quả đánh giá lúc thử nghiệm rất cao, có thể lên tới 98–99%, nhưng khi đưa vào vận hành thật thì hiệu năng mô hình suy giảm nghiêm trọng.
 >
-> Ví dụ trong y tế: dự đoán bệnh nhân có chuyển nặng hay không lúc mới vào viện. Nếu trong dữ liệu có cột `Mã_khoa_điều_trị` hoặc `Ngày_nhập_viện`, mô hình sẽ đạt điểm gần như 100%. Nhưng thực tế, bệnh nhân phải khám xong thì mới có mã khoa điều trị. Lúc bệnh nhân mới đến quầy tiếp nhận, cột này hoàn toàn chưa có, khiến mô hình vô dụng."
+> Lấy ví dụ trong y tế với bài toán dự đoán bệnh nhân có chuyển nặng hay không ngay lúc mới vào viện. Nếu trong bảng dữ liệu huấn luyện có cột `Mã_khoa_điều_trị` hoặc `Ngày_nhập_viện`, mô hình có thể đạt độ chính xác gần như tuyệt đối. Nhưng thực tế, bệnh nhân phải khám xong mới được phân khoa điều trị; tại thời điểm vừa đến quầy tiếp nhận, thông tin này hoàn toàn chưa tồn tại, khiến mô hình trở nên vô dụng ngoài thực tế."
 
 ---
 
 ## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến *(1.5 phút)*
-> "Vậy Data Leakage thường xuất phát từ đâu? Trong thực tế có 5 nguyên nhân phổ biến nhất:
-> 1. **Tiền xử lý trước khi chia tập:** Chẳng hạn tính min, max, mean trên cả bảng dữ liệu rồi mới chia Train/Test, khiến thông tin phân phối của tập Test vô tình tham gia vào bước chuẩn hóa.
-> 2. **Rò rỉ theo thời gian:** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình dùng thông tin giao dịch ở tương lai để dự đoán hành vi trong quá khứ.
-> 3. **Rò rỉ theo nhóm:** Dữ liệu của cùng một đối tượng (ví dụ nhiều ảnh X-quang của cùng một bệnh nhân) xuất hiện ở cả Train và Test, làm mô hình ghi nhớ quá mức đặc điểm cá nhân thay vì học quy luật bệnh lý.
-> 4. **Dữ liệu trùng lặp:** Bản ghi trùng lặp xuất hiện ở cả hai tập do không lọc sạch trước.
-> 5. **Biến đại diện cho nhãn (Target Proxy):** Cột đặc trưng phản ánh kết quả sau khi sự kiện mục tiêu đã xảy ra, như cột `số_tiền_được_duyệt` trong bài toán dự đoán hồ sơ có được duyệt vay hay không."
+> "Vậy Data Leakage thường xuất phát từ đâu? Trong thực tế có năm nguyên nhân phổ biến nhất. Thứ nhất là tiền xử lý trước khi chia tập, chẳng hạn tính min, max hay mean trên toàn bộ bảng dữ liệu rồi mới chia Train/Test, làm thông tin phân phối của tập Test lọt vào bước chuẩn hóa. Thứ hai là rò rỉ theo thời gian, xảy ra khi ta dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình dùng dữ liệu giao dịch ở tương lai để dự đoán hành vi trong quá khứ.
+>
+> Thứ ba là rò rỉ theo nhóm, khi dữ liệu của cùng một thực thể — chẳng hạn nhiều ảnh X-quang của cùng một bệnh nhân — xuất hiện ở cả Train và Test, làm mô hình ghi nhớ quá mức đặc điểm cá nhân thay vì học quy luật bệnh lý. Thứ tư là dữ liệu trùng lặp không được lọc sạch khiến cùng một bản ghi nằm ở cả hai tập. Và thứ năm là sự xuất hiện của biến đại diện cho nhãn (Target Proxy), tức cột đặc trưng phản ánh kết quả sau khi sự kiện mục tiêu đã xảy ra, như cột `số_tiền_được_duyệt` trong bài toán dự đoán hồ sơ có được duyệt vay hay không."
 
 ---
 
 ## Slide 12: Phòng chống & Phát hiện Data Leakage *(1.5 phút)*
-> "Để kiểm soát vấn đề này, chúng ta cần chú ý cả hai khía cạnh là phòng ngừa và nhận diện:
+> "Để kiểm soát vấn đề này, chúng ta cần chú ý cả hai khía cạnh là phòng ngừa và nhận diện. Về phòng ngừa, nguyên tắc đầu tiên là luôn chia tập Train và Test trước khi chạm vào dữ liệu, đồng thời đóng gói toàn bộ quy trình xử lý bằng `Pipeline` của Scikit-learn để đảm bảo mọi bước như scaling hay imputation chỉ `fit` trên phần Train trong từng vòng Cross-Validation. Với dữ liệu thời gian ta phải dùng **Temporal Split**, với dữ liệu theo nhóm đối tượng ta dùng **GroupKFold**, và luôn kiểm tra xem tại thời điểm dự đoán thật thì các cột đầu vào đã tồn tại hay chưa.
 >
-> - **Phòng ngừa:**
->   - Luôn chia tập Train/Test **trước tiên**, không chạm vào dữ liệu trước khi chia.
->   - Đóng gói toàn bộ bước xử lý bằng `Pipeline` của Scikit-learn để đảm bảo mọi bước như scaling hay imputation chỉ `fit` trên phần Train trong từng vòng Cross-Validation.
->   - Dùng **Temporal Split** cho bài toán thời gian và **GroupKFold** cho dữ liệu theo nhóm đối tượng.
->   - Kiểm tra kỹ xem tại thời điểm dự đoán thật, cột đó đã tồn tại hay chưa.
-> - **Dấu hiệu nhận diện:**
->   - Khi thấy độ chính xác cao bất thường so với thực tế.
->   - Hoặc khi thấy một cột có độ quan trọng (Feature Importance) cao vượt trội bất thường, cần nghi ngờ và kiểm tra lại nguồn gốc của cột đó ngay."
+> Còn để phát hiện sớm khi đã lỡ xảy ra rò rỉ, ta cần cảnh giác nếu thấy độ chính xác cao bất thường so với thực tế bài toán, hoặc khi kiểm tra thấy một cột có độ quan trọng cao vượt trội bất thường so với phần còn lại thì phải rà soát lại nguồn gốc của cột đó ngay."
 
 ---
 
 ## Slide 13: Đánh giá đặc trưng – Feature Importance *(1.5 phút)*
-> "Không phải cứ tạo thật nhiều đặc trưng là tốt. Đặc trưng thừa làm mô hình chậm, nặng và dễ quá khớp. Vì vậy ta cần đo **Feature Importance**:
+> "Không phải cứ tạo càng nhiều đặc trưng thì mô hình càng tốt, vì các biến thừa sẽ làm mô hình nặng, chậm và dễ quá khớp. Do đó, ta cần đánh giá **Feature Importance** để chọn lọc lại.
 >
-> 1. **Built-in Tree Importance:** Đo mức giảm tạp chất trong cây quyết định, tính rất nhanh nhưng hay thiên lệch về cột có nhiều giá trị.
-> 2. **Permutation Importance:** Xáo trộn ngẫu nhiên từng cột trên tập Validation rồi đo mức sụt giảm hiệu năng. Cột nào xáo trộn mà làm hiệu năng tụt mạnh thì cột đó thực sự quan trọng. Cách này khách quan và dùng cho mọi mô hình.
-> 3. **SHAP:** Dựa trên lý thuyết trò chơi, đo chính xác mức độ đóng góp của từng đặc trưng cho cả toàn tập dữ liệu lẫn từng mẫu dự đoán riêng lẻ (Local). Chẳng hạn với riêng hồ sơ vay A, SHAP chỉ rõ `thu nhập` đóng góp tăng điểm uy tín bao nhiêu và `lịch sử trễ hạn` kéo giảm bao nhiêu."
+> Cách nhanh nhất là dùng **Built-in Tree Importance** dựa trên mức giảm tạp chất trong cây quyết định, nhưng phương pháp này dễ thiên lệch về những cột có nhiều giá trị phân biệt. Khách quan hơn là **Permutation Importance**, hoạt động bằng cách xáo trộn ngẫu nhiên từng cột trên tập Validation rồi đo mức sụt giảm hiệu năng; cột nào khi xáo trộn mà làm hiệu năng tụt mạnh thì cột đó thực sự quan trọng, và cách này dùng được cho mọi loại mô hình. Cuối cùng, **SHAP** dựa trên lý thuyết trò chơi giúp đo chính xác đóng góp của từng đặc trưng không chỉ trên toàn tập dữ liệu mà còn cho từng mẫu dự đoán riêng lẻ; chẳng hạn với riêng hồ sơ vay A, SHAP có thể chỉ rõ `thu nhập` đóng góp tăng điểm uy tín bao nhiêu và `lịch sử trễ hạn` kéo giảm bao nhiêu."
 
 ---
 
 ## Slide 14: Tính tổng quát hóa (Feature Generalization) *(1.5 phút)*
-> "Bên cạnh độ quan trọng, một đặc trưng tốt bắt buộc phải có **khả năng tổng quát hóa** ngoài thực tế:
->
-> - **Feature Coverage (Độ bao phủ):** Đặc trưng xuất hiện trên bao nhiêu phần trăm mẫu dữ liệu. Nếu chỉ xuất hiện ở dưới 1% trường hợp cá biệt, mô hình rất dễ bị quá khớp (overfitting).
-> - **Distribution Stability (Độ ổn định phân phối):** Phân phối của đặc trưng không được biến động quá nhanh theo thời gian (tránh Data Drift).
->
-> Bài học rút ra là: luôn cân bằng giữa việc mô tả thật chi tiết dữ liệu hiện tại và giữ cho đặc trưng ổn định lâu dài trên dữ liệu tương lai."
+> "Bên cạnh độ quan trọng trên dữ liệu hiện có, một đặc trưng tốt bắt buộc phải có khả năng tổng quát hóa khi gặp dữ liệu mới trong tương lai. Điều này thể hiện qua hai tiêu chí chính là **Feature Coverage** — tức tỷ lệ mẫu có giá trị cho đặc trưng đó, tránh dùng những đặc trưng chỉ xuất hiện ở dưới 1% trường hợp cá biệt vì mô hình rất dễ bị quá khớp — và **Distribution Stability**, đòi hỏi phân phối của đặc trưng không được biến động quá nhanh theo thời gian để hạn chế tình trạng Data Drift. Nói cách khác, ta luôn cần cân bằng giữa việc mô tả chi tiết dữ liệu hiện tại và giữ cho đặc trưng ổn định lâu dài."
 
 ---
 
 ## Slide 15: Tổng kết – 3 Bài học cốt lõi *(1.0 phút)*
-> "Đúc kết lại toàn bộ Chương 5, mình muốn nhấn mạnh 3 thông điệp chính:
->
-> 1. **Hiểu dữ liệu là nền tảng:** Chọn kỹ thuật xử lý (missing, scaling, encoding) dựa trên cơ chế sinh dữ liệu và mô hình sử dụng; biết kết hợp cả đặc trưng thủ công và tự học.
-> 2. **Kiểm soát chặt chẽ Data Leakage:** Luôn chia tập trước khi tiền xử lý, dùng Pipeline và chia tập đúng theo thời gian hoặc nhóm thực thể.
-> 3. **Đơn giản và bền vững:** Dùng Permutation Importance hoặc SHAP để loại bỏ đặc trưng nhiễu, ưu tiên các đặc trưng có độ bao phủ và tính ổn định cao."
+> "Đúc kết lại toàn bộ Chương 5, có ba thông điệp cốt lõi cần ghi nhớ. Thứ nhất, hiểu bản chất dữ liệu là nền tảng để chọn đúng kỹ thuật xử lý từ missing, scaling đến encoding, cũng như biết cách kết hợp hợp lý giữa đặc trưng thủ công và đặc trưng tự học. Thứ hai, cần kiểm soát chặt chẽ Data Leakage ngay từ đầu bằng cách chia tập trước khi tiền xử lý, dùng Pipeline và chọn đúng chiến lược chia theo thời gian hoặc nhóm thực thể. Và thứ ba, hãy ưu tiên sự đơn giản và bền vững bằng cách dùng Permutation Importance hoặc SHAP để loại bỏ biến nhiễu, giữ lại những đặc trưng có độ bao phủ và tính ổn định cao."
 
 ---
 
