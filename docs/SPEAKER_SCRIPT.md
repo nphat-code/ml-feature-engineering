@@ -89,8 +89,8 @@
 > Tiếp theo là **Mã hóa biến phân loại (Encoding)** để chuyển dạng chữ thành số cho mô hình học:
 > - **Ordinal Encoding:** Gán số thứ tự $0, 1, 2...$, chỉ dùng khi biến thực sự có thứ tự tự nhiên (*Thấp, Trung bình, Cao*).
 > - **One-Hot Encoding:** Tạo cột nhị phân `0/1`, tốt khi có ít danh mục. Nếu có hàng nghìn mã sản phẩm, One-Hot sẽ làm bùng nổ số chiều.
-> - **Target Encoding:** Thay danh mục bằng trung bình của nhãn mục tiêu, rất mạnh cho dữ liệu dạng bảng nhiều danh mục, nhưng cần kỹ thuật làm mượt (smoothing) để tránh quá khớp.
-> - **Hashing Trick:** Dùng hàm băm nén toàn bộ danh mục vào một vector kích thước cố định. Cách này tiết kiệm bộ nhớ và xử lý được cả những danh mục mới xuất hiện lúc chạy thực tế."
+> - **Target Encoding:** Thay danh mục bằng giá trị trung bình của nhãn mục tiêu, ví dụ mã quận `'Q1'` được thay bằng tỷ lệ khách hàng rời bỏ trung bình tại quận đó. Cách này rất hiệu quả cho dữ liệu bảng nhiều danh mục, nhưng nếu một danh mục chỉ xuất hiện 1–2 lần thì giá trị trung bình sẽ thiếu ổn định và dễ gây quá khớp; vì vậy ta cần kỹ thuật làm mượt (smoothing) kết hợp với trung bình chung của toàn tập, và chỉ tính trong Cross-Validation.
+> - **Hashing Trick:** Dùng hàm băm nén toàn bộ danh mục vào một vector kích thước cố định. Cách này tiết kiệm bộ nhớ và xử lý được cả những danh mục mới xuất hiện lúc chạy thực tế, đổi lại có thể xảy ra va chạm băm (hash collision) khi hai danh mục khác nhau cùng ánh xạ vào một vị trí."
 
 ---
 
@@ -114,11 +114,11 @@
 
 ## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến *(1.5 phút)*
 > "Vậy Data Leakage thường xuất phát từ đâu? Trong thực tế có 5 nguyên nhân phổ biến nhất:
-> 1. **Tiền xử lý trước khi chia tập:** Tính min, max, mean trên cả bảng dữ liệu rồi mới chia Train/Test.
-> 2. **Rò rỉ theo thời gian:** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình lấy dữ liệu ngày mai để đoán ngày hôm qua.
-> 3. **Rò rỉ theo nhóm:** Dữ liệu của cùng một người dùng hay bệnh nhân xuất hiện ở cả Train và Test, làm mô hình ghi nhớ quá mức đặc điểm cá nhân.
-> 4. **Dữ liệu trùng lặp:** Bản ghi trùng lặp nằm ở cả hai tập do không lọc sạch trước.
-> 5. **Biến đại diện cho nhãn (Target Proxy):** Cột đặc trưng phản ánh kết quả sau khi sự kiện mục tiêu đã xảy ra."
+> 1. **Tiền xử lý trước khi chia tập:** Chẳng hạn tính min, max, mean trên cả bảng dữ liệu rồi mới chia Train/Test, khiến thông tin phân phối của tập Test vô tình tham gia vào bước chuẩn hóa.
+> 2. **Rò rỉ theo thời gian:** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình dùng thông tin giao dịch ở tương lai để dự đoán hành vi trong quá khứ.
+> 3. **Rò rỉ theo nhóm:** Dữ liệu của cùng một đối tượng (ví dụ nhiều ảnh X-quang của cùng một bệnh nhân) xuất hiện ở cả Train và Test, làm mô hình ghi nhớ quá mức đặc điểm cá nhân thay vì học quy luật bệnh lý.
+> 4. **Dữ liệu trùng lặp:** Bản ghi trùng lặp xuất hiện ở cả hai tập do không lọc sạch trước.
+> 5. **Biến đại diện cho nhãn (Target Proxy):** Cột đặc trưng phản ánh kết quả sau khi sự kiện mục tiêu đã xảy ra, như cột `số_tiền_được_duyệt` trong bài toán dự đoán hồ sơ có được duyệt vay hay không."
 
 ---
 
@@ -127,7 +127,7 @@
 >
 > - **Phòng ngừa:**
 >   - Luôn chia tập Train/Test **trước tiên**, không chạm vào dữ liệu trước khi chia.
->   - Đóng gói toàn bộ bước xử lý bằng `Pipeline` của Scikit-learn để đảm bảo chỉ fit trên phần Train.
+>   - Đóng gói toàn bộ bước xử lý bằng `Pipeline` của Scikit-learn để đảm bảo mọi bước như scaling hay imputation chỉ `fit` trên phần Train trong từng vòng Cross-Validation.
 >   - Dùng **Temporal Split** cho bài toán thời gian và **GroupKFold** cho dữ liệu theo nhóm đối tượng.
 >   - Kiểm tra kỹ xem tại thời điểm dự đoán thật, cột đó đã tồn tại hay chưa.
 > - **Dấu hiệu nhận diện:**
@@ -141,7 +141,7 @@
 >
 > 1. **Built-in Tree Importance:** Đo mức giảm tạp chất trong cây quyết định, tính rất nhanh nhưng hay thiên lệch về cột có nhiều giá trị.
 > 2. **Permutation Importance:** Xáo trộn ngẫu nhiên từng cột trên tập Validation rồi đo mức sụt giảm hiệu năng. Cột nào xáo trộn mà làm hiệu năng tụt mạnh thì cột đó thực sự quan trọng. Cách này khách quan và dùng cho mọi mô hình.
-> 3. **SHAP:** Dựa trên lý thuyết trò chơi, đo chính xác mức độ đóng góp của từng đặc trưng trên cả toàn tập dữ liệu lẫn từng mẫu dự đoán cụ thể."
+> 3. **SHAP:** Dựa trên lý thuyết trò chơi, đo chính xác mức độ đóng góp của từng đặc trưng cho cả toàn tập dữ liệu lẫn từng mẫu dự đoán riêng lẻ (Local). Chẳng hạn với riêng hồ sơ vay A, SHAP chỉ rõ `thu nhập` đóng góp tăng điểm uy tín bao nhiêu và `lịch sử trễ hạn` kéo giảm bao nhiêu."
 
 ---
 
