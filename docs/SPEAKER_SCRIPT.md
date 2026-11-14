@@ -20,7 +20,7 @@
 
 ---
 
-## Slide 1: Mục tiêu & Nội dung chính *(1.0 phút)*
+## Slide 1: Giới thiệu đề tài & Nội dung chính *(1.0 phút)*
 > "Chào thầy/cô và các bạn. Hôm nay mình xin chia sẻ về Chương 5: **Feature Engineering** trong cuốn *Designing Machine Learning Systems* của tác giả Chip Huyen. Bài hôm nay gồm 4 nội dung trọng tâm:
 > 1. Bản chất và tầm quan trọng của Feature Engineering.
 > 2. So sánh đặc trưng tự học và đặc trưng do con người thiết kế.

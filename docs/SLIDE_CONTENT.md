@@ -8,17 +8,20 @@
 
 ---
 
-## Slide 1: Mục tiêu & Nội dung chính
-1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
-2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
-3. **Các kỹ thuật Feature Engineering cốt lõi:**
-   - Xử lý dữ liệu khuyết thiếu (Missing values).
-   - Chuẩn hóa phạm vi (Scaling & Normalization).
-   - Rời rạc hóa (Binning) & Mã hóa danh mục (Categorical Encoding).
-   - Tổ hợp đặc trưng (Feature Crossing) & Nhúng vị trí (Positional Embeddings).
-4. **Data Leakage (Rò rỉ dữ liệu):** Nguyên nhân, cách phát hiện và phòng ngừa.
-5. **Engineering Good Features:** Đánh giá độ quan trọng và khả năng tổng quát hóa.
-- **Gợi ý trực quan:** Sơ đồ 5 khối nội dung nối tiếp rõ ràng.
+## Slide 1: Giới thiệu đề tài & Nội dung chính
+- **Đề tài:** **Chapter 5: Feature Engineering**
+- **Tài liệu gốc:** *Designing Machine Learning Systems* – Chip Huyen (O'Reilly Media, 2022)
+- **Nội dung trọng tâm:**
+  1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
+  2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
+  3. **Các kỹ thuật Feature Engineering cốt lõi:**
+     - Xử lý dữ liệu khuyết thiếu (Missing values).
+     - Chuẩn hóa phạm vi (Scaling & Normalization).
+     - Rời rạc hóa (Binning) & Mã hóa danh mục (Categorical Encoding).
+     - Tổ hợp đặc trưng (Feature Crossing) & Nhúng vị trí (Positional Embeddings).
+  4. **Data Leakage (Rò rỉ dữ liệu):** Nguyên nhân, cách phát hiện và phòng ngừa.
+  5. **Engineering Good Features:** Đánh giá độ quan trọng và khả năng tổng quát hóa.
+- **Gợi ý trực quan:** Tiêu đề đề tài nổi bật ở phần trên, bên dưới là sơ đồ 5 khối nội dung nối tiếp và luồng `Raw Data` $\rightarrow$ `Feature Engineering` $\rightarrow$ `Model`.
 
 ---
 
