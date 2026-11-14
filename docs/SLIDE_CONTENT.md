@@ -146,7 +146,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
   - **Kiểm tra tính sẵn có:** Xác minh mọi đặc trưng đều đã tồn tại tại thời điểm dự đoán.
 - **Dấu hiệu nhận biết:**
   - Điểm đánh giá cao một cách bất thường so với thực tế bài toán.
-  - Có một đặc trưng chiếm độ quan trọng (Feature Importance) áp đảo các biến còn lại.
+  - Có một đặc trưng chiếm độ quan trọng (Feature Importance) cao vượt trội bất thường so với các biến còn lại.
 
 ---
 
@@ -164,7 +164,7 @@ Chapter 5 đúc kết 6 kỹ thuật xử lý cơ bản nhất:
 - **Hai tiêu chí cốt lõi:**
   1. **Feature Coverage (Độ bao phủ):**
      - Tỷ lệ phần trăm mẫu có giá trị cho đặc trưng đó.
-     - Đặc trưng chỉ xuất hiện ở dưới 1% mẫu dữ liệu dễ làm mô hình học vẹt (overfitting).
+     - Đặc trưng chỉ xuất hiện ở dưới 1% mẫu dữ liệu dễ làm mô hình ghi nhớ quá mức (overfitting).
   2. **Distribution Stability (Độ ổn định phân phối):**
      - Phân phối giá trị của đặc trưng không được thay đổi quá nhanh theo thời gian (tránh Data Drift).
 - **Nguyên tắc:** Cân bằng giữa độ chi tiết cho bài toán hiện tại và độ bền vững theo thời gian.
