@@ -16,14 +16,10 @@
 
 ---
 
-## Slide 2: Mục tiêu & Nội dung chính
+## Slide 2: Nội dung chính
 1. **Bản chất Feature Engineering:** Vì sao quyết định hiệu năng mô hình?
 2. **Learned Features vs. Engineered Features:** So sánh và ngữ cảnh sử dụng.
-3. **Các kỹ thuật Feature Engineering cốt lõi:**
-   - Xử lý dữ liệu khuyết thiếu (Missing values).
-   - Chuẩn hóa phạm vi (Scaling & Normalization).
-   - Rời rạc hóa (Binning) & Mã hóa danh mục (Categorical Encoding).
-   - Tổ hợp đặc trưng (Feature Crossing) & Nhúng vị trí (Positional Embeddings).
+3. **Các kỹ thuật xử lý đặc trưng cốt lõi:** 6 nhóm phương pháp biến đổi và tạo đặc trưng phổ biến.
 4. **Data Leakage (Rò rỉ dữ liệu):** Nguyên nhân, cách phát hiện và phòng ngừa.
 5. **Engineering Good Features:** Đánh giá độ quan trọng và khả năng tổng quát hóa.
 - **Gợi ý trực quan:** Sơ đồ 5 khối nội dung nối tiếp rõ ràng.

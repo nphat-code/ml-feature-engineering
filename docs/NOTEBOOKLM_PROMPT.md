@@ -4,7 +4,7 @@
 Tạo bộ slide thuyết trình bằng tiếng Việt (giữ nguyên thuật ngữ ML tiếng Anh) dựa trên SLIDE_CONTENT.md và SPEAKER_SCRIPT.md về Chapter 5: Feature Engineering (Chip Huyen).
 
 Yêu cầu:
-- Slide 1 chỉ giới thiệu trực tiếp đề tài (*Chapter 5: Feature Engineering* – *Designing Machine Learning Systems*, Chip Huyen), không ghi tên môn học, giảng viên, sinh viên. Slide 2 trình bày mục tiêu & 5 nội dung chính. Xuất đúng 17 slide từ Slide 1 đến Slide 17 trong SLIDE_CONTENT.md, không gộp slide.
+- Slide 1 chỉ giới thiệu trực tiếp đề tài (*Chapter 5: Feature Engineering* – *Designing Machine Learning Systems*, Chip Huyen), không ghi tên môn học, giảng viên, sinh viên. Slide 2 trình bày 5 nội dung chính. Xuất đúng 17 slide từ Slide 1 đến Slide 17 trong SLIDE_CONTENT.md, không gộp slide.
 - Văn phong học thuật, trung tính, gãy gọn; không phóng đại hay thêm kiến thức ngoài nguồn.
 - Thiết kế nền trắng tối giản, ít chữ (3–5 ý ngắn/slide), ưu tiên sơ đồ luồng (Slide 1), sơ đồ khối (Slide 2), bảng so sánh (Slide 4), lưới 3x2 (Slide 5) và giữ đúng các ví dụ trong bài (chuyến xe công nghệ, YouTube, Mã_khoa_điều_trị).
 ```

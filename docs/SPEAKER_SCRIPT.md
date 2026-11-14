@@ -25,7 +25,7 @@
 
 ---
 
-## Slide 2: Mục tiêu & Nội dung chính *(0.5 phút)*
+## Slide 2: Nội dung chính *(0.5 phút)*
 > "Để bắt đầu, nội dung bài trình bày hôm nay sẽ đi qua năm phần trọng tâm. Trước tiên là bản chất và tầm quan trọng của Feature Engineering, tiếp theo là so sánh giữa đặc trưng tự học và đặc trưng do con người thiết kế. Sau đó, chúng ta sẽ điểm qua các kỹ thuật xử lý đặc trưng thường dùng nhất trong thực tế, phân tích vấn đề rò rỉ dữ liệu (Data Leakage) cùng cách phòng ngừa, và cuối cùng là cách đánh giá để nhận biết một đặc trưng tốt."
 
 ---
