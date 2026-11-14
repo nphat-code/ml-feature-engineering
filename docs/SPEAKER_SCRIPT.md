@@ -26,7 +26,7 @@
 ---
 
 ## Slide 2: Mục tiêu & Nội dung chính *(0.5 phút)*
-> "Bài hôm nay gồm 5 nội dung trọng tâm:
+> "Để bắt đầu, nội dung bài trình bày hôm nay gồm 5 phần trọng tâm:
 > 1. Bản chất và tầm quan trọng của Feature Engineering.
 > 2. So sánh đặc trưng tự học và đặc trưng do con người thiết kế.
 > 3. Các kỹ thuật xử lý đặc trưng hay dùng nhất trong thực tế.
@@ -113,7 +113,7 @@
 ---
 
 ## Slide 11: 5 Nguyên nhân gây Data Leakage phổ biến *(1.5 phút)*
-> "5 nguyên nhân gây rò rỉ dữ liệu phổ biến nhất gồm:
+> "Vậy Data Leakage thường xuất phát từ đâu? Trong thực tế có 5 nguyên nhân phổ biến nhất:
 > 1. **Tiền xử lý trước khi chia tập:** Tính min, max, mean trên cả bảng dữ liệu rồi mới chia Train/Test.
 > 2. **Rò rỉ theo thời gian:** Dùng chia ngẫu nhiên (Random Split) cho dữ liệu chuỗi thời gian, khiến mô hình lấy dữ liệu ngày mai để đoán ngày hôm qua.
 > 3. **Rò rỉ theo nhóm:** Dữ liệu của cùng một người dùng hay bệnh nhân xuất hiện ở cả Train và Test, làm mô hình ghi nhớ quá mức đặc điểm cá nhân.
@@ -123,7 +123,7 @@
 ---
 
 ## Slide 12: Phòng chống & Phát hiện Data Leakage *(1.5 phút)*
-> "Để phòng chống và nhận diện Data Leakage:
+> "Để kiểm soát vấn đề này, chúng ta cần chú ý cả hai khía cạnh là phòng ngừa và nhận diện:
 >
 > - **Phòng ngừa:**
 >   - Luôn chia tập Train/Test **trước tiên**, không chạm vào dữ liệu trước khi chia.
@@ -165,7 +165,7 @@
 ---
 
 ## Slide 16: Tài liệu tham khảo *(0.5 phút)*
-> "Đây là các tài liệu chính mình sử dụng để nghiên cứu đề tài này, gồm giáo trình của Chip Huyen, sách Feature Engineering của O'Reilly, cùng các bài giảng trực quan từ Stanford và StatQuest."
+> "Trên đây là những nội dung cốt lõi của Chương 5. Các tài liệu chính mình sử dụng để tham khảo gồm giáo trình của Chip Huyen, sách Feature Engineering của O'Reilly, cùng các bài giảng trực quan từ Stanford và StatQuest."
 
 ---
 
